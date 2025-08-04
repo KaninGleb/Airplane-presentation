@@ -271,7 +271,7 @@ export default function App() {
 
       {isLoading && (
         <div className={s.loaderOverlay}>
-          <div className={s.loader}>Загрузка 3D модели...</div>
+          <LoadingAnimation />
         </div>
       )}
 
@@ -292,6 +292,25 @@ export default function App() {
           <OrbitControls enabled={!activePoint} />
         </Suspense>
       </Canvas>
+    </div>
+  )
+}
+
+
+function LoadingAnimation() {
+  const [dots, setDots] = useState(1)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDots((prevDots) => (prevDots < 3 ? prevDots + 1 : 1))
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
+  return (
+    <div className={s.loader}>
+      Загрузка 3D модели{'.'.repeat(dots)}
     </div>
   )
 }
