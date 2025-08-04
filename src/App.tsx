@@ -164,6 +164,7 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
 export default function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const [isAutoRotating, setIsAutoRotating] = useLocalStorage('isAutoRotating', true)
   const [ambientIntensity, setAmbientIntensity] = useLocalStorage('ambientIntensity', 1.5)
@@ -211,6 +212,10 @@ export default function App() {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+      if (buttonRef.current && buttonRef.current.contains(event.target as Node)) {
+        return
+      }
+
       if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
         setIsPanelOpen(false)
       }
@@ -226,7 +231,7 @@ export default function App() {
 
   return (
     <div className={s.container}>
-      <button className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
+      <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
         {isPanelOpen ? 'х' : '☰'}
       </button>
 
