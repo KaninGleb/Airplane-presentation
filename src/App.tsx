@@ -185,7 +185,7 @@ export default function App() {
   return (
     <div className={s.container}>
       <button className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
-        {isPanelOpen ? '×' : '☰'}
+        {isPanelOpen ? 'х' : '☰'}
       </button>
 
       <div className={`${s.uiPanel} ${isPanelOpen ? s.open : ''}`}>
@@ -205,7 +205,7 @@ export default function App() {
           </div>
         </div>
         <div className={s.controlGroup}>
-          <span className={s.label}>💡 Настройки света</span>
+          <span className={s.label}>Настройки света</span>
           <span className={s.valueLabel}>Яркость (Общий): {ambientIntensity.toFixed(1)}</span>
           <input
             type='range'

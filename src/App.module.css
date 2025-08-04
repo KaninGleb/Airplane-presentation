@@ -16,6 +16,7 @@
     border: none;
     color: white;
     font-size: 24px;
+    padding: 10px 26px;
     cursor: pointer;
     z-index: 101;
     display: flex;
@@ -31,17 +32,26 @@
 .uiPanel {
     position: absolute;
     top: 0;
-    right: -320px;
-    width: 300px;
+    right: -340px;
+    width: 320px;
     height: 100%;
-    background: rgba(25, 25, 25, 0.85);
-    backdrop-filter: blur(10px);
-    padding: 80px 20px 20px;
-    color: white;
-    z-index: 100;
-    font-family: sans-serif;
+    padding: 90px 24px 30px;
+    background: rgba(25, 25, 25, 0.6);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
     transition: right 0.4s ease-in-out;
+    font-family: 'Segoe UI', sans-serif;
+    color: #f2f2f2;
+    z-index: 999;
     box-sizing: border-box;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.uiPanel::-webkit-scrollbar {
+    display: none;
 }
 
 .uiPanel.open {
@@ -49,35 +59,61 @@
 }
 
 .controlGroup {
-    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .label {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.valueLabel {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 12px;
+    margin-bottom: 6px;
 }
 
 .slider {
     width: 100%;
-    cursor: pointer;
+    appearance: none;
+    height: 6px;
+    background: linear-gradient(to right, #00bfff, #0080ff);
+    border-radius: 4px;
+    outline: none;
+    transition: background 0.3s ease;
 }
 
-.valueLabel {
-    display: block;
-    margin-top: 15px;
-    color: #ccc;
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 2px solid #00bfff;
+    transition: transform 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
 }
 
 .toggleContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .toggleSwitch {
     position: relative;
-    display: inline-block;
     width: 50px;
     height: 28px;
 }
@@ -90,30 +126,29 @@
 
 .toggleSlider {
     position: absolute;
-    cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: #555;
-    transition: 0.4s;
-    border-radius: 28px;
+    transition: background 0.3s;
+    border-radius: 50px;
 }
 
 .toggleSlider:before {
-    position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
     background-color: white;
-    transition: 0.4s;
+    transition: transform 0.3s ease;
     border-radius: 50%;
 }
 
 .toggleInput:checked + .toggleSlider {
-    background-color: #007bff;
+    background: linear-gradient(to right, #00bfff, #0080ff);
 }
 
 .toggleInput:checked + .toggleSlider:before {
