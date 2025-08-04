@@ -1,8 +1,9 @@
-import { type RefObject, Suspense, useRef, useState } from 'react'
+import { type RefObject, Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, useGLTF, Billboard, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import s from './App.module.css'
+import { useLoading } from './hooks/useLoading.ts'
 
 type PointData = {
   id: string
@@ -74,14 +75,7 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
             roughness={0}
           />
         </mesh>
-        <Html
-          as='div'
-          center
-          transform
-          occlude={[modelRef]}
-          wrapperClass={htmlClassName}
-          zIndexRange={[100, 0]}
-        >
+        <Html as='div' center transform occlude={[modelRef]} wrapperClass={htmlClassName} zIndexRange={[100, 0]}>
           <div
             onPointerDown={handleClick}
             onPointerOver={() => setIsHovered(true)}
@@ -118,6 +112,12 @@ function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, poin
       modelRef.current.rotation.y += delta * 0.3
     }
   })
+
+  const { setIsLoading } = useLoading()
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [setIsLoading])
 
   return (
     <group ref={modelRef} rotation={[0, 3, 0]} {...props}>
@@ -161,6 +161,8 @@ export default function App() {
 
   const [showPoints, setShowPoints] = useState(true)
   const [pointSize, setPointSize] = useState(1)
+
+  const { isLoading } = useLoading()
 
   const calculateLightPosition = (): [number, number, number] => {
     const angleRad = lightAngle * (Math.PI / 180)
@@ -266,6 +268,12 @@ export default function App() {
       </div>
 
       {activePoint && <InfoBox point={activePoint} onClose={handleCloseInfoBox} />}
+
+      {isLoading && (
+        <div className={s.loaderOverlay}>
+          <div className={s.loader}>Загрузка 3D модели...</div>
+        </div>
+      )}
 
       <Canvas camera={{ position: [0, 4, 10], fov: 75 }}>
         <Suspense fallback={null}>

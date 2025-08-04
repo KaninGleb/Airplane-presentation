@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode } from 'react'
+import { LoadingProvider } from './components/LoadingProvider.tsx'
 import App from './App.tsx'
+import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <LoadingProvider>
+      <App />
+    </LoadingProvider>
   </StrictMode>,
 )
