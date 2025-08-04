@@ -1,6 +1,6 @@
 import { type RefObject, Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import {OrbitControls, useGLTF, Billboard, Html, Environment} from '@react-three/drei'
+import { OrbitControls, useGLTF, Billboard, Html, Environment } from '@react-three/drei'
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
@@ -153,14 +153,14 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
 
 export default function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
-  const [isAutoRotating, setIsAutoRotating] = useState(true)
-  const [ambientIntensity, setAmbientIntensity] = useState(1.5)
-  const [directionalIntensity, setDirectionalIntensity] = useState(1.5)
-  const [lightAngle, setLightAngle] = useState(45)
+  const [isAutoRotating, setIsAutoRotating] = useLocalStorage('isAutoRotating', true)
+  const [ambientIntensity, setAmbientIntensity] = useLocalStorage('ambientIntensity', 1.5)
+  const [directionalIntensity, setDirectionalIntensity] = useLocalStorage('directionalIntensity', 1.5)
+  const [lightAngle, setLightAngle] = useLocalStorage('lightAngle', 45)
   const [activePoint, setActivePoint] = useState<PointData | null>(null)
 
-  const [showPoints, setShowPoints] = useState(true)
-  const [pointSize, setPointSize] = useState(1)
+  const [showPoints, setShowPoints] = useLocalStorage('showPoints', true)
+  const [pointSize, setPointSize] = useLocalStorage('pointSize', 1)
 
   const { isLoading } = useLoading()
 
@@ -169,6 +169,21 @@ export default function App() {
     const radius = 10
     const height = 10
     return [radius * Math.cos(angleRad), height, radius * Math.sin(angleRad)]
+  }
+
+  const resetSettings = () => {
+    setIsAutoRotating(true)
+    setAmbientIntensity(1.5)
+    setDirectionalIntensity(1.5)
+    setLightAngle(45)
+    setShowPoints(true)
+    setPointSize(1)
+    localStorage.removeItem('isAutoRotating')
+    localStorage.removeItem('ambientIntensity')
+    localStorage.removeItem('directionalIntensity')
+    localStorage.removeItem('lightAngle')
+    localStorage.removeItem('showPoints')
+    localStorage.removeItem('pointSize')
   }
 
   const arePointsActuallyVisible = showPoints && !activePoint
@@ -265,6 +280,11 @@ export default function App() {
             className={s.slider}
           />
         </div>
+        <div className={s.controlGroup}>
+          <button className={s.resetButton} onClick={resetSettings}>
+            Сбросить настройки
+          </button>
+        </div>
       </div>
 
       {activePoint && <InfoBox point={activePoint} onClose={handleCloseInfoBox} />}
@@ -296,7 +316,6 @@ export default function App() {
   )
 }
 
-
 function LoadingAnimation() {
   const [dots, setDots] = useState(1)
 
@@ -308,9 +327,29 @@ function LoadingAnimation() {
     return () => clearInterval(intervalId)
   }, [])
 
-  return (
-    <div className={s.loader}>
-      Загрузка 3D модели{'.'.repeat(dots)}
-    </div>
-  )
+  return <div className={s.loader}>Загрузка 3D модели{'.'.repeat(dots)}</div>
+}
+
+function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      console.log(error)
+      return initialValue
+    }
+  })
+
+  const setValue = (value: T) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value
+      setStoredValue(valueToStore)
+      window.localStorage.setItem(key, JSON.stringify(valueToStore))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return [storedValue, setValue]
 }
