@@ -87,6 +87,7 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
             <img
               src={iconSrc}
               alt="Info"
+              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </Html>
