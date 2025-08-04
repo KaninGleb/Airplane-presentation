@@ -1,6 +1,6 @@
 import { type RefObject, Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, useGLTF, Billboard, Html } from '@react-three/drei'
+import {OrbitControls, useGLTF, Billboard, Html, Environment} from '@react-three/drei'
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
@@ -288,6 +288,7 @@ export default function App() {
             arePointsVisible={arePointsActuallyVisible}
             pointSize={pointSize}
           />
+          <Environment files={'/citrus_orchard_puresky_2k.exr'} background />
           <OrbitControls enabled={!activePoint} />
         </Suspense>
       </Canvas>
