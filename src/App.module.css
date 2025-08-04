@@ -1,0 +1,121 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: #303030;
+    position: relative;
+    overflow: hidden;
+}
+
+.toggleButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background: #444;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, right 0.4s ease-in-out;
+}
+
+.toggleButton.open {
+    right: -100px;
+}
+
+.uiPanel {
+    position: absolute;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    height: 100%;
+    background: rgba(25, 25, 25, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 80px 20px 20px;
+    color: white;
+    z-index: 100;
+    font-family: sans-serif;
+    transition: right 0.4s ease-in-out;
+    box-sizing: border-box;
+}
+
+.uiPanel.open {
+    right: 0;
+}
+
+.controlGroup {
+    margin-bottom: 25px;
+}
+
+.label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.slider {
+    width: 100%;
+    cursor: pointer;
+}
+
+.valueLabel {
+    display: block;
+    margin-top: 15px;
+    color: #ccc;
+}
+
+.toggleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.toggleInput {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggleSlider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #555;
+    transition: 0.4s;
+    border-radius: 28px;
+}
+
+.toggleSlider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.toggleInput:checked + .toggleSlider {
+    background-color: #007bff;
+}
+
+.toggleInput:checked + .toggleSlider:before {
+    transform: translateX(22px);
+}
