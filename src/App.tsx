@@ -57,17 +57,18 @@ function InteractivePoint({ position, pointData, onClick }: InteractivePointProp
   }
 
   return (
-    <Billboard position={position}>
-      <mesh
-        scale={scale}
-        onPointerDown={handleClick}
-        onPointerOver={() => setIsHovered(true)}
-        onPointerOut={() => setIsHovered(false)}
-      >
-        <sphereGeometry args={[0.4, 32, 32]} />
-        <meshBasicMaterial color={isHovered ? '#ff4747' : '#ff0000'} transparent opacity={0.8} />
-      </mesh>
-    </Billboard>
+    <>
+      <Html position={position} as="div" className={s.interactivePointWrapper} pointerEvents="none">
+        <div
+          style={{pointerEvents: 'auto', cursor: 'pointer'}}
+          onPointerDown={handleClick}
+          onPointerOver={() => setIsHovered(true)}
+          onPointerOut={() => setIsHovered(false)}
+        >
+          <InfoIcon className={`${s.interactivePointIcon} ${isHovered ? s.hovered : ''}`}/>
+        </div>
+      </Html>
+    </>
   )
 }
 
