@@ -153,12 +153,13 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
 
 export default function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false)
+  const panelRef = useRef<HTMLDivElement>(null)
+
   const [isAutoRotating, setIsAutoRotating] = useLocalStorage('isAutoRotating', true)
   const [ambientIntensity, setAmbientIntensity] = useLocalStorage('ambientIntensity', 1.5)
   const [directionalIntensity, setDirectionalIntensity] = useLocalStorage('directionalIntensity', 1.5)
   const [lightAngle, setLightAngle] = useLocalStorage('lightAngle', 45)
   const [activePoint, setActivePoint] = useState<PointData | null>(null)
-
   const [showPoints, setShowPoints] = useLocalStorage('showPoints', true)
   const [pointSize, setPointSize] = useLocalStorage('pointSize', 1)
 
@@ -187,7 +188,6 @@ export default function App() {
   }
 
   const arePointsActuallyVisible = showPoints && !activePoint
-
   const actualIsRotating = isAutoRotating && !activePoint
   const directionalLightPosition = calculateLightPosition()
 
@@ -199,13 +199,28 @@ export default function App() {
     setActivePoint(null)
   }
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        setIsPanelOpen(false)
+      }
+    }
+
+    if (isPanelOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isPanelOpen])
+
   return (
     <div className={s.container}>
       <button className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
         {isPanelOpen ? 'х' : '☰'}
       </button>
 
-      <div className={`${s.uiPanel} ${isPanelOpen ? s.open : ''}`}>
+      <div ref={panelRef} className={`${s.uiPanel} ${isPanelOpen ? s.open : ''}`}>
         <div className={s.controlGroup}>
           <div className={s.toggleContainer}>
             <span className={s.label}>🔄 Автовращение</span>
