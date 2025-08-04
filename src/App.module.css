@@ -160,3 +160,8 @@
     font-size: 24px;
     cursor: pointer;
 }
+
+.interactivePointIcon {
+    width: 40px;
+    height: auto;
+}
