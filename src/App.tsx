@@ -120,7 +120,7 @@ function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, poin
   })
 
   return (
-    <group ref={modelRef} {...props}>
+    <group ref={modelRef} rotation={[0, 3, 0]} {...props}>
       <primitive object={scene} />
       {points.map((point) => (
         <InteractivePoint
