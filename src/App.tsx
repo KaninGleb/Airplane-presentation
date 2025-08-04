@@ -71,6 +71,16 @@ function InteractivePoint({ position, pointData, onClick }: InteractivePointProp
   )
 }
 
+function InfoIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+      <circle cx='12' cy='12' r='10' strokeWidth='1.5' fill='none' />
+      <path d='M12 17V11' strokeWidth='1.5' strokeLinecap='round' fill='none' />
+      <circle cx='1' cy='1' r='1' transform='matrix(1 0 0 -1 11 9)' />
+    </svg>
+  )
+}
+
 function Airplane({ isAutoRotating, points, onPointClick, ...props }: AirplaneProps) {
   const { scene } = useGLTF('/greenPlane.glb')
   const ref = useRef<THREE.Group>(null!)
