@@ -4,6 +4,8 @@
     background: #303030;
     position: relative;
     overflow: hidden;
+    perspective: 1000px;
+    transform-style: preserve-3d;
 }
 
 .toggleButton {
