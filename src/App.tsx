@@ -25,6 +25,7 @@ type InteractivePointProps = {
   pointData: PointData
   onClick: (point: PointData) => void
   isVisible: boolean
+  size: number
 }
 
 type InfoBoxProps = {
@@ -51,7 +52,7 @@ const mockPoints: PointData[] = [
   },
 ]
 
-export function InteractivePoint({ position, pointData, onClick, isVisible }: InteractivePointProps) {
+function InteractivePoint({ position, pointData, onClick, isVisible, size }: InteractivePointProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleClick = (e: any) => {
@@ -62,24 +63,36 @@ export function InteractivePoint({ position, pointData, onClick, isVisible }: In
   const iconSrc = isHovered ? '/info-circle-icon-2-hover.svg' : '/info-circle-icon-2.svg'
 
   return (
-    // Billboard сам по себе является 3D-объектом, оставим его
+    // Billboard обеспечивает правильную ориентацию к камере
     <Billboard position={position} visible={isVisible}>
-      <Html center>
-        <div
-          className={s.interactivePointIcon}
-          onPointerDown={handleClick}
-          onPointerOver={() => setIsHovered(true)}
-          onPointerOut={() => setIsHovered(false)}
-          style={{ border: '2px dashed lime' }}
-        >
-          <img src={iconSrc} alt='Info' style={{ width: '100%', height: '100%' }} />
-        </div>
-      </Html>
+      {/* group обеспечивает правильный размер точки */}
+      <group scale={[size, size, size]}>
+        <mesh>
+          <sphereGeometry args={[0.3, 32, 32]} />
+          <meshStandardMaterial
+            color={isHovered ? '#ff8c8c' : '#ffffff'}
+            transparent
+            opacity={isHovered ? 0.4 : 0.25}
+            roughness={0}
+          />
+        </mesh>
+
+        <Html center>
+          <div
+            className={s.interactivePointIcon}
+            onPointerDown={handleClick}
+            onPointerOver={() => setIsHovered(true)}
+            onPointerOut={() => setIsHovered(false)}
+          >
+            <img src={iconSrc} alt='Info' style={{ width: '100%', height: '100%' }} />
+          </div>
+        </Html>
+      </group>
     </Billboard>
   )
 }
 
-function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, ...props }: AirplaneProps) {
+function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, ...props }: AirplaneProps) {
   const { scene } = useGLTF('/greenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
@@ -105,6 +118,7 @@ function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, ...p
           pointData={point}
           onClick={onPointClick}
           isVisible={arePointsVisible}
+          size={pointSize}
         />
       ))}
     </group>
