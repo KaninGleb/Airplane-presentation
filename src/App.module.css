@@ -199,3 +199,7 @@
 .interactivePointIcon.hovered path:nth-of-type(3) {
     fill: #FF1616;
 }
+
+.hidden {
+    display: none;
+}

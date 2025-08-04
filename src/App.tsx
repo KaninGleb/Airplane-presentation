@@ -15,7 +15,8 @@ type AirplaneProps = {
   arePointsVisible: boolean
   points: PointData[]
   onPointClick: (point: PointData) => void
-  [key:string]: any
+  pointSize: number
+  [key: string]: any
 }
 
 type InteractivePointProps = {
@@ -24,6 +25,7 @@ type InteractivePointProps = {
   onClick: (point: PointData) => void
   modelRef: RefObject<THREE.Group>
   isVisible: boolean
+  size: number
 }
 
 type InfoBoxProps = {
@@ -50,7 +52,7 @@ const mockPoints: PointData[] = [
   },
 ]
 
-function InteractivePoint({ position, pointData, onClick, modelRef, isVisible }: InteractivePointProps) {
+function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, size }: InteractivePointProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleClick = (e: any) => {
@@ -58,9 +60,11 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible }:
     onClick(pointData)
   }
 
+  const htmlClassName = `${s.htmlContainer} ${isVisible ? '' : s.hidden}`
+
   return (
     <Billboard position={position} visible={isVisible}>
-      <group>
+      <group scale={[size, size, size]}>
         <mesh>
           <sphereGeometry args={[0.3, 32, 32]} />
           <meshStandardMaterial
@@ -75,7 +79,7 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible }:
           center
           transform
           occlude={[modelRef]}
-          wrapperClass={s.htmlContainer}
+          wrapperClass={htmlClassName}
           zIndexRange={[100, 0]}
         >
           <div
@@ -105,7 +109,7 @@ function InfoIcon({ className }: { className?: string }) {
   )
 }
 
-function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, ...props }: AirplaneProps) {
+function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, ...props }: AirplaneProps) {
   const { scene } = useGLTF('/greenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
@@ -126,6 +130,7 @@ function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, ...p
           onClick={onPointClick}
           modelRef={modelRef}
           isVisible={arePointsVisible}
+          size={pointSize}
         />
       ))}
     </group>
@@ -154,6 +159,9 @@ export default function App() {
   const [lightAngle, setLightAngle] = useState(45)
   const [activePoint, setActivePoint] = useState<PointData | null>(null)
 
+  const [showPoints, setShowPoints] = useState(true)
+  const [pointSize, setPointSize] = useState(1)
+
   const calculateLightPosition = (): [number, number, number] => {
     const angleRad = lightAngle * (Math.PI / 180)
     const radius = 10
@@ -161,8 +169,9 @@ export default function App() {
     return [radius * Math.cos(angleRad), height, radius * Math.sin(angleRad)]
   }
 
+  const arePointsActuallyVisible = showPoints && !activePoint
+
   const actualIsRotating = isAutoRotating && !activePoint
-  const arePointsVisible = !activePoint
   const directionalLightPosition = calculateLightPosition()
 
   const handlePointClick = (point: PointData) => {
@@ -176,7 +185,7 @@ export default function App() {
   return (
     <div className={s.container}>
       <button className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
-        {isPanelOpen ? 'X' : '☰'}
+        {isPanelOpen ? '×' : '☰'}
       </button>
 
       <div className={`${s.uiPanel} ${isPanelOpen ? s.open : ''}`}>
@@ -228,6 +237,32 @@ export default function App() {
             className={s.slider}
           />
         </div>
+        <div className={s.controlGroup}>
+          <span className={s.label}>Информация:</span>
+          <div className={s.toggleContainer}>
+            <span className={s.label}>Показать подсказки</span>
+            <div className={s.toggleSwitch}>
+              <input
+                type='checkbox'
+                checked={showPoints}
+                onChange={() => setShowPoints(!showPoints)}
+                className={s.toggleInput}
+                id='hotpointsVisibleCheck'
+              />
+              <label className={s.toggleSlider} htmlFor='hotpointsVisibleCheck'></label>
+            </div>
+          </div>
+          <span className={s.valueLabel}>Размер подсказок: {pointSize.toFixed(1)}</span>
+          <input
+            type='range'
+            min='0.5'
+            max='2'
+            step='0.1'
+            value={pointSize}
+            onChange={(e) => setPointSize(parseFloat(e.target.value))}
+            className={s.slider}
+          />
+        </div>
       </div>
 
       {activePoint && <InfoBox point={activePoint} onClose={handleCloseInfoBox} />}
@@ -242,7 +277,8 @@ export default function App() {
             isAutoRotating={actualIsRotating}
             points={mockPoints}
             onPointClick={handlePointClick}
-            arePointsVisible={arePointsVisible}
+            arePointsVisible={arePointsActuallyVisible}
+            pointSize={pointSize}
           />
           <OrbitControls enabled={!activePoint} />
         </Suspense>
