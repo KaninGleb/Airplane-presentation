@@ -1,4 +1,4 @@
-import { Suspense, useRef, useState } from 'react'
+import { type RefObject, Suspense, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, useGLTF, Billboard, Html } from '@react-three/drei'
 import * as THREE from 'three'
@@ -12,15 +12,18 @@ type PointData = {
 
 type AirplaneProps = {
   isAutoRotating: boolean
+  arePointsVisible: boolean
   points: PointData[]
   onPointClick: (point: PointData) => void
-  [key: string]: any
+  [key:string]: any
 }
 
 type InteractivePointProps = {
   position: [number, number, number]
   pointData: PointData
   onClick: (point: PointData) => void
+  modelRef: RefObject<THREE.Group>
+  isVisible: boolean
 }
 
 type InfoBoxProps = {
@@ -47,7 +50,7 @@ const mockPoints: PointData[] = [
   },
 ]
 
-function InteractivePoint({ position, pointData, onClick }: InteractivePointProps) {
+function InteractivePoint({ position, pointData, onClick, modelRef, isVisible }: InteractivePointProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleClick = (e: any) => {
@@ -56,7 +59,7 @@ function InteractivePoint({ position, pointData, onClick }: InteractivePointProp
   }
 
   return (
-    <Billboard position={position}>
+    <Billboard position={position} visible={isVisible}>
       <group>
         <mesh>
           <sphereGeometry args={[0.3, 32, 32]} />
@@ -67,8 +70,14 @@ function InteractivePoint({ position, pointData, onClick }: InteractivePointProp
             roughness={0}
           />
         </mesh>
-
-        <Html as='div' center transform occlude={false} wrapperClass={s.htmlContainer} zIndexRange={[100, 0]}>
+        <Html
+          as='div'
+          center
+          transform
+          occlude={[modelRef]}
+          wrapperClass={s.htmlContainer}
+          zIndexRange={[100, 0]}
+        >
           <div
             onPointerDown={handleClick}
             onPointerOver={() => setIsHovered(true)}
@@ -85,36 +94,39 @@ function InteractivePoint({ position, pointData, onClick }: InteractivePointProp
 function InfoIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-      <path
-        d='M24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12Z'
-      />
+      <path d='M24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12Z' />
       <path
         fillRule='evenodd'
         clipRule='evenodd'
         d='M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23ZM12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z'
       />
-      <path
-        d='M10.4688 14.9429H10.9375V11.5571H10.4688C10.2099 11.5571 10 11.3473 10 11.0884V9.96875C10 9.70986 10.2099 9.5 10.4688 9.5H13.0938C13.3526 9.5 13.5625 9.70986 13.5625 9.96875V14.9429H14.0312C14.2901 14.9429 14.5 15.1527 14.5 15.4116V16.5312C14.5 16.7901 14.2901 17 14.0312 17H10.4688C10.2099 17 10 16.7901 10 16.5312V15.4116C10 15.1527 10.2099 14.9429 10.4688 14.9429ZM12.25 5C11.318 5 10.5625 5.75551 10.5625 6.6875C10.5625 7.61949 11.318 8.375 12.25 8.375C13.182 8.375 13.9375 7.61949 13.9375 6.6875C13.9375 5.75551 13.182 5 12.25 5Z'
-      />
+      <path d='M10.4688 14.9429H10.9375V11.5571H10.4688C10.2099 11.5571 10 11.3473 10 11.0884V9.96875C10 9.70986 10.2099 9.5 10.4688 9.5H13.0938C13.3526 9.5 13.5625 9.70986 13.5625 9.96875V14.9429H14.0312C14.2901 14.9429 14.5 15.1527 14.5 15.4116V16.5312C14.5 16.7901 14.2901 17 14.0312 17H10.4688C10.2099 17 10 16.7901 10 16.5312V15.4116C10 15.1527 10.2099 14.9429 10.4688 14.9429ZM12.25 5C11.318 5 10.5625 5.75551 10.5625 6.6875C10.5625 7.61949 11.318 8.375 12.25 8.375C13.182 8.375 13.9375 7.61949 13.9375 6.6875C13.9375 5.75551 13.182 5 12.25 5Z' />
     </svg>
   )
 }
 
-function Airplane({ isAutoRotating, points, onPointClick, ...props }: AirplaneProps) {
+function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, ...props }: AirplaneProps) {
   const { scene } = useGLTF('/greenPlane.glb')
-  const ref = useRef<THREE.Group>(null!)
+  const modelRef = useRef<THREE.Group>(null!)
 
   useFrame((_, delta) => {
-    if (isAutoRotating && ref.current) {
-      ref.current.rotation.y += delta * 0.3
+    if (isAutoRotating && modelRef.current) {
+      modelRef.current.rotation.y += delta * 0.3
     }
   })
 
   return (
-    <group ref={ref} {...props}>
+    <group ref={modelRef} {...props}>
       <primitive object={scene} />
       {points.map((point) => (
-        <InteractivePoint key={point.id} position={point.position} pointData={point} onClick={onPointClick} />
+        <InteractivePoint
+          key={point.id}
+          position={point.position}
+          pointData={point}
+          onClick={onPointClick}
+          modelRef={modelRef}
+          isVisible={arePointsVisible}
+        />
       ))}
     </group>
   )
@@ -150,6 +162,7 @@ export default function App() {
   }
 
   const actualIsRotating = isAutoRotating && !activePoint
+  const arePointsVisible = !activePoint
   const directionalLightPosition = calculateLightPosition()
 
   const handlePointClick = (point: PointData) => {
@@ -229,6 +242,7 @@ export default function App() {
             isAutoRotating={actualIsRotating}
             points={mockPoints}
             onPointClick={handlePointClick}
+            arePointsVisible={arePointsVisible}
           />
           <OrbitControls enabled={!activePoint} />
         </Suspense>
