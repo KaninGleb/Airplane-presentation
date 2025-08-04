@@ -63,9 +63,7 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
   const iconSrc = isHovered ? '/info-circle-icon-2-hover.svg' : '/info-circle-icon-2.svg'
 
   return (
-    // Billboard обеспечивает правильную ориентацию к камере
     <Billboard position={position} visible={isVisible}>
-      {/* group обеспечивает правильный размер точки */}
       <group scale={[size, size, size]}>
         <mesh>
           <sphereGeometry args={[0.3, 32, 32]} />
@@ -111,16 +109,17 @@ function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, poin
   return (
     <group ref={modelRef} rotation={[0, 3, 0]} {...props}>
       <primitive object={scene} />
-      {points.map((point) => (
-        <InteractivePoint
-          key={point.id}
-          position={point.position}
-          pointData={point}
-          onClick={onPointClick}
-          isVisible={arePointsVisible}
-          size={pointSize}
-        />
-      ))}
+      {arePointsVisible &&
+        points.map((point) => (
+          <InteractivePoint
+            key={point.id}
+            position={point.position}
+            pointData={point}
+            onClick={onPointClick}
+            isVisible={true}
+            size={pointSize}
+          />
+        ))}
     </group>
   )
 }
