@@ -1,6 +1,6 @@
 import { type RefObject, Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, useGLTF, Billboard, Html, Environment } from '@react-three/drei'
+import { OrbitControls, useGLTF, Html, Environment } from '@react-three/drei'
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
@@ -53,59 +53,29 @@ const mockPoints: PointData[] = [
   },
 ]
 
-function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, size }: InteractivePointProps) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  const handleClick = (e: any) => {
-    e.stopPropagation()
-    onClick(pointData)
+function InteractivePoint({ isVisible }: InteractivePointProps) {
+  if (!isVisible) {
   }
 
-  const htmlClassName = `${s.htmlContainer} ${isVisible ? '' : s.hidden}`
-
-  const iconSrc = isHovered ? '/info-circle-icon-2-hover.svg' : '/info-circle-icon-2.svg';
-
   return (
-    <Billboard position={position} visible={isVisible}>
-      <group scale={[size, size, size]}>
-        <mesh>
-          <sphereGeometry args={[0.3, 32, 32]} />
-          <meshStandardMaterial
-            color={isHovered ? '#ff8c8c' : '#ffffff'}
-            transparent
-            opacity={isHovered ? 0.4 : 0.25}
-            roughness={0}
-          />
-        </mesh>
-        <Html as='div' center transform occlude={[modelRef]} wrapperClass={htmlClassName} zIndexRange={[100, 0]}>
-          <div
-            className={s.interactivePointIcon}
-            onPointerDown={handleClick}
-            onPointerOver={() => setIsHovered(true)}
-            onPointerOut={() => setIsHovered(false)}
-          >
-            <img
-              src={iconSrc}
-              alt="Info"
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-          <div
-            style={{
-              width: '100px',
-              height: '100px',
-              backgroundColor: 'red',
-              border: '2px solid yellow',
-              fontSize: '20px',
-              color: 'white',
-            }}
-          >
-            Я ЗДЕСЬ!
-          </div>
-        </Html>
-      </group>
-    </Billboard>
-  )
+    <Html>
+      <div
+        style={{
+          position: 'fixed',
+          top: '10px',
+          left: '10px',
+          width: '100px',
+          height: '100px',
+          backgroundColor: 'red',
+          border: '3px solid yellow',
+          zIndex: 9999,
+          color: 'white'
+        }}
+      >
+        Я ТУТ!
+      </div>
+    </Html>
+  );
 }
 
 function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, ...props }: AirplaneProps) {
