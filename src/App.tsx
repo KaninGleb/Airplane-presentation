@@ -90,6 +90,18 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
               style={{ width: '100%', height: '100%' }}
             />
           </div>
+          <div
+            style={{
+              width: '100px',
+              height: '100px',
+              backgroundColor: 'red',
+              border: '2px solid yellow',
+              fontSize: '20px',
+              color: 'white',
+            }}
+          >
+            Я ЗДЕСЬ!
+          </div>
         </Html>
       </group>
     </Billboard>
