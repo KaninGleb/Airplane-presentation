@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "three": "^0.179.1"
   },
   "devDependencies": {
@@ -26,6 +26,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "prettier": "3.6.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4"
