@@ -79,6 +79,7 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
         </mesh>
         <Html as='div' center transform occlude={[modelRef]} wrapperClass={htmlClassName} zIndexRange={[100, 0]}>
           <div
+            className={s.interactivePointIcon}
             onPointerDown={handleClick}
             onPointerOver={() => setIsHovered(true)}
             onPointerOut={() => setIsHovered(false)}
@@ -86,7 +87,6 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
             <img
               src={iconSrc}
               alt="Info"
-              className={s.interactivePointIcon}
             />
           </div>
         </Html>
