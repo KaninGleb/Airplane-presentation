@@ -1,6 +1,6 @@
-import { type RefObject, Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, useGLTF, Html, Environment, Billboard } from '@react-three/drei'
+import { Billboard, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
@@ -24,9 +24,7 @@ type InteractivePointProps = {
   position: [number, number, number]
   pointData: PointData
   onClick: (point: PointData) => void
-  modelRef: RefObject<THREE.Group>
   isVisible: boolean
-  size: number
 }
 
 type InfoBoxProps = {
@@ -53,7 +51,7 @@ const mockPoints: PointData[] = [
   },
 ]
 
-export function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, size }: InteractivePointProps) {
+export function InteractivePoint({ position, pointData, onClick, isVisible }: InteractivePointProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const handleClick = (e: any) => {
@@ -61,37 +59,27 @@ export function InteractivePoint({ position, pointData, onClick, modelRef, isVis
     onClick(pointData)
   }
 
-  const htmlClassName = `${s.htmlContainer} ${isVisible ? '' : s.hidden}`
   const iconSrc = isHovered ? '/info-circle-icon-2-hover.svg' : '/info-circle-icon-2.svg'
 
   return (
+    // Billboard сам по себе является 3D-объектом, оставим его
     <Billboard position={position} visible={isVisible}>
-      <group scale={[size, size, size]}>
-        <mesh>
-          <sphereGeometry args={[0.3, 32, 32]} />
-          <meshStandardMaterial
-            color={isHovered ? '#ff8c8c' : '#ffffff'}
-            transparent
-            opacity={isHovered ? 0.4 : 0.25}
-            roughness={0}
-          />
-        </mesh>
-        <Html as='div' center transform occlude={[modelRef]} wrapperClass={htmlClassName} zIndexRange={[100, 0]}>
-          <div
-            className={s.interactivePointIcon}
-            onPointerDown={handleClick}
-            onPointerOver={() => setIsHovered(true)}
-            onPointerOut={() => setIsHovered(false)}
-          >
-            <img src={iconSrc} alt='Info' style={{ width: '100%', height: '100%' }} />
-          </div>
-        </Html>
-      </group>
+      <Html center>
+        <div
+          className={s.interactivePointIcon}
+          onPointerDown={handleClick}
+          onPointerOver={() => setIsHovered(true)}
+          onPointerOut={() => setIsHovered(false)}
+          style={{ border: '2px dashed lime' }}
+        >
+          <img src={iconSrc} alt='Info' style={{ width: '100%', height: '100%' }} />
+        </div>
+      </Html>
     </Billboard>
   )
 }
 
-function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, ...props }: AirplaneProps) {
+function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, ...props }: AirplaneProps) {
   const { scene } = useGLTF('/greenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
@@ -116,9 +104,7 @@ function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, poin
           position={point.position}
           pointData={point}
           onClick={onPointClick}
-          modelRef={modelRef}
           isVisible={arePointsVisible}
-          size={pointSize}
         />
       ))}
     </group>
