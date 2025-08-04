@@ -63,6 +63,8 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
 
   const htmlClassName = `${s.htmlContainer} ${isVisible ? '' : s.hidden}`
 
+  const iconSrc = isHovered ? '/info-circle-icon-2-hover.svg' : '/info-circle-icon-2.svg';
+
   return (
     <Billboard position={position} visible={isVisible}>
       <group scale={[size, size, size]}>
@@ -81,7 +83,11 @@ function InteractivePoint({ position, pointData, onClick, modelRef, isVisible, s
             onPointerOver={() => setIsHovered(true)}
             onPointerOut={() => setIsHovered(false)}
           >
-            <InfoIcon className={s.interactivePointIcon} isHovered={isHovered} />
+            <img
+              src={iconSrc}
+              alt="Info"
+              className={s.interactivePointIcon}
+            />
           </div>
         </Html>
       </group>
