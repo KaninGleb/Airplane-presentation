@@ -9,6 +9,8 @@ import hoveredIcon from '../src/assets/icons/info-circle-icon-hover-orange.svg'
 import logos from '../src/assets/contents/logos.svg'
 import quoteIcon from '../src/assets/icons/Quote-Decoration-Icon.svg'
 import quoteIconOrange from '../src/assets/icons/Quote-Decoration-Icon-Orange.svg'
+import newGreenPlaneUrl from '../src/assets/newGreenPlane.glb?url'
+import citrusOrchardExrUrl from '../src/assets/bgs/citrus_orchard_puresky_2k.exr?url'
 
 type PointData = {
   id: string
@@ -130,12 +132,12 @@ function Airplane({
   propellerSpeed,
   ...props
 }: AirplaneProps) {
-  const { scene } = useGLTF('../src/assets/newGreenPlane.glb')
+  const { scene } = useGLTF(newGreenPlaneUrl)
   const modelRef = useRef<THREE.Group>(null!)
   const { setIsLoading } = useLoading()
 
-  const [blades, setBlades] = useState<THREE.Object3D[]>([]) // Лопасти
-  const [spinners, setSpinners] = useState<THREE.Object3D[]>([]) // Обёртки/Спиннеры
+  const [blades, setBlades] = useState<THREE.Object3D[]>([])
+  const [spinners, setSpinners] = useState<THREE.Object3D[]>([])
 
   useEffect(() => {
     const bladeNames = ['AirFrance_obj_26_aiAirFrance_udim2_0002', 'AirFrance_obj_22_aiAirFrance_udim2_0002']
@@ -473,7 +475,7 @@ export default function App() {
             isPropellerSpinning={isPropellerSpinning}
             propellerSpeed={propellerSpeed}
           />
-          <Environment files={'../src/assets/bgs/citrus_orchard_puresky_2k.exr'} background />
+          <Environment files={citrusOrchardExrUrl} background />
           <OrbitControls enabled={!activePoint} />
         </Suspense>
       </Canvas>
