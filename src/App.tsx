@@ -126,20 +126,57 @@ function Airplane({
   rotationSpeed,
   ...props
 }: AirplaneProps) {
-  const { scene } = useGLTF('../src/assets/greenPlane.glb')
+  const { scene } = useGLTF('../src/assets/newGreenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
+  const { setIsLoading } = useLoading()
+
+  const [blades, setBlades] = useState<THREE.Object3D[]>([]) // Лопасти
+  const [spinners, setSpinners] = useState<THREE.Object3D[]>([]) // Обёртки/Спиннеры
+
+  useEffect(() => {
+    const bladeNames = ['AirFrance_obj_26_aiAirFrance_udim2_0002', 'AirFrance_obj_22_aiAirFrance_udim2_0002']
+    const spinnerNames = ['Cylinder002', 'Cylinder005']
+
+    const foundBlades: THREE.Object3D[] = []
+    const foundSpinners: THREE.Object3D[] = []
+
+    bladeNames.forEach((name) => {
+      const part = scene.getObjectByName(name)
+      if (part) foundBlades.push(part)
+    })
+
+    spinnerNames.forEach((name) => {
+      const part = scene.getObjectByName(name)
+      if (part) foundSpinners.push(part)
+    })
+
+    setBlades(foundBlades)
+    setSpinners(foundSpinners)
+  }, [scene])
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [setIsLoading])
 
   useFrame((_, delta) => {
     if (isAutoRotating && modelRef.current) {
       modelRef.current.rotation.y += delta * rotationSpeed
     }
+
+    const propellerSpeed = 5
+
+    if (blades.length > 0) {
+      blades.forEach((blade) => {
+        blade.rotation.x += delta * propellerSpeed
+      })
+    }
+
+    if (spinners.length > 0) {
+      spinners.forEach((spinner) => {
+        spinner.rotation.y -= delta * propellerSpeed
+      })
+    }
   })
-
-  const { setIsLoading } = useLoading()
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, [setIsLoading])
 
   return (
     <group ref={modelRef} rotation={[0, 3, 0]} {...props}>
