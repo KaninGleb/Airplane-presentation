@@ -21,6 +21,7 @@ type AirplaneProps = {
   points: PointData[]
   onPointClick: (point: PointData) => void
   pointSize: number
+  rotationSpeed: number
   [key: string]: any
 }
 
@@ -88,13 +89,13 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
   )
 }
 
-function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, ...props }: AirplaneProps) {
+function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, rotationSpeed, ...props }: AirplaneProps) {
   const { scene } = useGLTF('../src/assets/greenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
   useFrame((_, delta) => {
     if (isAutoRotating && modelRef.current) {
-      modelRef.current.rotation.y += delta * 0.3
+      modelRef.current.rotation.y += delta * rotationSpeed
     }
   })
 
@@ -148,6 +149,7 @@ export default function App() {
   const [activePoint, setActivePoint] = useState<PointData | null>(null)
   const [showPoints, setShowPoints] = useLocalStorage('showPoints', true)
   const [pointSize, setPointSize] = useLocalStorage('pointSize', 1)
+  const [rotationSpeed, setRotationSpeed] = useLocalStorage('rotationSpeed', 0.3)
 
   const { isLoading } = useLoading()
 
@@ -165,12 +167,14 @@ export default function App() {
     setLightAngle(45)
     setShowPoints(true)
     setPointSize(1)
+    setRotationSpeed(0.3)
     localStorage.removeItem('isAutoRotating')
     localStorage.removeItem('ambientIntensity')
     localStorage.removeItem('directionalIntensity')
     localStorage.removeItem('lightAngle')
     localStorage.removeItem('showPoints')
     localStorage.removeItem('pointSize')
+    localStorage.removeItem('rotationSpeed')
   }
 
   const arePointsActuallyVisible = showPoints && !activePoint
@@ -248,6 +252,17 @@ export default function App() {
               <label className={s.toggleSlider} htmlFor='autoRotateCheck'></label>
             </div>
           </div>
+          <span className={s.valueLabel}>Скорость вращения: {rotationSpeed.toFixed(1)}</span>
+          <input
+            type='range'
+            min='0'
+            max='2'
+            step='0.1'
+            value={rotationSpeed}
+            onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
+            className={s.slider}
+            disabled={!isAutoRotating} // Опционально: делаем слайдер неактивным, если вращение выключено
+          />
         </div>
         <div className={s.controlGroup}>
           <span className={s.label}>Настройки света</span>
@@ -335,6 +350,7 @@ export default function App() {
             onPointClick={handlePointClick}
             arePointsVisible={arePointsActuallyVisible}
             pointSize={pointSize}
+            rotationSpeed={rotationSpeed}
           />
           <Environment files={'../src/assets/bgs/citrus_orchard_puresky_2k.exr'} background />
           <OrbitControls enabled={!activePoint} />
