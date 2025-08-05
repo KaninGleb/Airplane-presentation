@@ -27,8 +27,19 @@
     transition: transform 0.3s ease, right 0.4s ease-in-out;
 }
 
+.toggleButton:focus,
+.resetButton:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .toggleButton.open {
     right: -100px;
+}
+
+.toggleButton:active {
+    background-color: #2c2c2c;
+    transition: background-color 0.1s ease;
 }
 
 .uiPanel {
@@ -136,6 +147,7 @@
     background-color: #555;
     transition: background 0.3s;
     border-radius: 50px;
+    cursor: pointer;
 }
 
 .toggleSlider:before {
@@ -250,4 +262,9 @@
 
 .resetButton:hover {
     background-color: #ff1a1a;
+}
+
+.resetButton:active {
+    background-color: #de4f4f;
+    transition: background-color 0.1s ease;
 }
