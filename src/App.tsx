@@ -143,8 +143,8 @@ export default function App() {
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   const [isAutoRotating, setIsAutoRotating] = useLocalStorage('isAutoRotating', true)
-  const [ambientIntensity, setAmbientIntensity] = useLocalStorage('ambientIntensity', 1.5)
-  const [directionalIntensity, setDirectionalIntensity] = useLocalStorage('directionalIntensity', 1.5)
+  const [ambientIntensity, setAmbientIntensity] = useLocalStorage('ambientIntensity', 0)
+  const [directionalIntensity, setDirectionalIntensity] = useLocalStorage('directionalIntensity', 0.7)
   const [lightAngle, setLightAngle] = useLocalStorage('lightAngle', 45)
   const [activePoint, setActivePoint] = useState<PointData | null>(null)
   const [showPoints, setShowPoints] = useLocalStorage('showPoints', true)
@@ -261,7 +261,7 @@ export default function App() {
             value={rotationSpeed}
             onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
             className={s.slider}
-            disabled={!isAutoRotating} // Опционально: делаем слайдер неактивным, если вращение выключено
+            disabled={!isAutoRotating}
           />
         </div>
         <div className={s.controlGroup}>
