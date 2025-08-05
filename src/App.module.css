@@ -1,11 +1,35 @@
 .container {
+    position: relative;
     width: 100vw;
     height: 100vh;
     background: #303030;
-    position: relative;
     overflow: hidden;
     perspective: 1000px;
     transform-style: preserve-3d;
+}
+
+.logotypeWrapper {
+    position: absolute;
+    top: 0;
+    z-index: 99999;
+    height: 120px;
+    width: 730px;
+}
+
+.logotypeWrapper::after {
+    content: '';
+    position: absolute;
+    top: 190px;
+    left: 0;
+    width: 100vw;
+    height: 1.5px;
+    background-color: #000;
+}
+
+.logotype {
+    height: auto;
+    max-width: 100%;
+    padding: 40px 0 26px 130px;
 }
 
 .toggleButton {

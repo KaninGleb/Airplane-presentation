@@ -6,6 +6,7 @@ import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
 import defaultIcon from '../src/assets/icons/info-circle-icon-orange.svg'
 import hoveredIcon from '../src/assets/icons/info-circle-icon-hover-orange.svg'
+import logos from '../src/assets/contents/logos.svg'
 
 type PointData = {
   id: string
@@ -204,6 +205,10 @@ export default function App() {
 
   return (
     <div className={s.container}>
+      <div className={s.logotypeWrapper}>
+        <img src={logos} alt={'Logo'} className={s.logotype}/>
+      </div>
+
       <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
         {isPanelOpen ? 'х' : '☰'}
       </button>
