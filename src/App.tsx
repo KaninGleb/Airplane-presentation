@@ -7,6 +7,7 @@ import { useLoading } from './hooks/useLoading.ts'
 import defaultIcon from '../src/assets/icons/info-circle-icon-orange.svg'
 import hoveredIcon from '../src/assets/icons/info-circle-icon-hover-orange.svg'
 import logos from '../src/assets/contents/logos.svg'
+import quoteIcon from '../src/assets/icons/Quote-Decoration-Icon.svg'
 
 type PointData = {
   id: string
@@ -210,6 +211,20 @@ export default function App() {
           <div className={s.header}>
             <img src={logos} alt={'Logo'} className={s.logotype} />
             <span className={s.name}>Douglas C-47 Spiridonow</span>
+            <div className={s.card}>
+              <img src={quoteIcon} alt='Quote Icon' className={s.quoteIcon} />
+              <div>
+                <h3 className={s.title}>
+                  Douglas C-47 <br />
+                  Skytrain <br />
+                  АС 42-23440
+                </h3>
+                <span className={s.description}>
+                  2d Lt. Evgeniy Spiridonow <br />
+                  MIA: May 28, 1943
+                </span>
+              </div>
+            </div>
           </div>
 
           <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
