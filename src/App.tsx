@@ -4,6 +4,8 @@ import { Billboard, Environment, Html, OrbitControls, useGLTF } from '@react-thr
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
+import defaultIcon from '../src/assets/icons/info-circle-icon-orange.svg'
+import hoveredIcon from '../src/assets/icons/info-circle-icon-hover-orange.svg'
 
 type PointData = {
   id: string
@@ -60,7 +62,7 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
     onClick(pointData)
   }
 
-  const iconSrc = isHovered ? '/info-circle-icon-2-hover.svg' : '/info-circle-icon-2.svg'
+  const iconSrc = isHovered ? hoveredIcon : defaultIcon
 
   return (
     <Billboard position={position} visible={isVisible}>
@@ -85,7 +87,7 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
 }
 
 function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, ...props }: AirplaneProps) {
-  const { scene } = useGLTF('/greenPlane.glb')
+  const { scene } = useGLTF('../src/assets/greenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
   useFrame((_, delta) => {
@@ -309,7 +311,7 @@ export default function App() {
             arePointsVisible={arePointsActuallyVisible}
             pointSize={pointSize}
           />
-          <Environment files={'/citrus_orchard_puresky_2k.exr'} background />
+          <Environment files={'../src/assets/bgs/citrus_orchard_puresky_2k.exr'} background />
           <OrbitControls enabled={!activePoint} />
         </Suspense>
       </Canvas>
