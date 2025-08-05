@@ -461,26 +461,28 @@ export default function App() {
         </div>
       )}
 
-      <Canvas camera={{ position: [0, 4, 10], fov: 75 }}>
-        <Suspense fallback={null}>
-          <ambientLight intensity={ambientIntensity} />
-          <directionalLight position={directionalLightPosition} intensity={directionalIntensity} />
-          <Airplane
-            scale={0.4}
-            position={[0, 0, 0]}
-            isAutoRotating={actualIsRotating}
-            points={mockPoints}
-            onPointClick={handlePointClick}
-            arePointsVisible={arePointsActuallyVisible}
-            pointSize={pointSize}
-            rotationSpeed={rotationSpeed}
-            isPropellerSpinning={isPropellerSpinning}
-            propellerSpeed={propellerSpeed}
-          />
-          <Environment files={citrusOrchardExrUrl} background />
-          <OrbitControls enabled={!activePoint} />
-        </Suspense>
-      </Canvas>
+      <div className={s.canvasContainer}>
+        <Canvas camera={{ position: [0, 4, 10], fov: 75 }}>
+          <Suspense fallback={null}>
+            <ambientLight intensity={ambientIntensity} />
+            <directionalLight position={directionalLightPosition} intensity={directionalIntensity} />
+            <Airplane
+              scale={0.4}
+              position={[0, 0, 0]}
+              isAutoRotating={actualIsRotating}
+              points={mockPoints}
+              onPointClick={handlePointClick}
+              arePointsVisible={arePointsActuallyVisible}
+              pointSize={pointSize}
+              rotationSpeed={rotationSpeed}
+              isPropellerSpinning={isPropellerSpinning}
+              propellerSpeed={propellerSpeed}
+            />
+            <Environment files={citrusOrchardExrUrl} background />
+            <OrbitControls enabled={!activePoint} />
+          </Suspense>
+        </Canvas>
+      </div>
     </div>
   )
 }
