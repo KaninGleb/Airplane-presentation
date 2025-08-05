@@ -273,15 +273,20 @@
 }
 
 .infoBox {
+    border-radius: 80px;
+    min-width: 1246px;
+    padding: 32px 48px;
     background: #333;
     color: white;
-    padding: 25px;
-    border-radius: 15px;
     border: 1px solid #555;
-    width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     position: relative;
+}
+
+.infoQuoteIcon {
+    width: 80px;
+    height: 55px;
 }
 
 .infoBox h3 {

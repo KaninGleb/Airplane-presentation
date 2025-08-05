@@ -8,11 +8,12 @@ import defaultIcon from '../src/assets/icons/info-circle-icon-orange.svg'
 import hoveredIcon from '../src/assets/icons/info-circle-icon-hover-orange.svg'
 import logos from '../src/assets/contents/logos.svg'
 import quoteIcon from '../src/assets/icons/Quote-Decoration-Icon.svg'
+import quoteIconOrange from '../src/assets/icons/Quote-Decoration-Icon-Orange.svg'
 
 type PointData = {
   id: string
   position: [number, number, number]
-  text: string
+  description: string[]
 }
 
 type AirplaneProps = {
@@ -41,19 +42,46 @@ type InfoBoxProps = {
 // The positions are set relative to the center of the aircraft model [x, y, z]
 const mockPoints: PointData[] = [
   {
-    id: 'Кабина пилота',
-    position: [0, 5.5, -10],
-    text: 'Это кабина пилота, оснащенная современной авионикой для обеспечения безопасности полетов.',
+    id: 'Фрагмент фюзеляжа',
+    position: [5, 8, 5],
+    description: [
+      'Самолет Си-47 Дуглас (ст. лейтенант Е.Ф. Герасимов)',
+      'Размеры: 200*100*30',
+      'Экспедиция «АЛСИБ», июль 2022 г.',
+    ],
   },
   {
-    id: 'Двигатель',
-    position: [3.3, 3.7, -7.5],
-    text: 'Турбовентиляторный двигатель, обеспечивающий тягу до 25,000 фунтов. Экономичен и надежен.',
+    id: 'Лопасть винта',
+    position: [3, 8, 5],
+    description: [
+      'Самолет С-47 Дуглас (ст. лейтенант Спиридонов)',
+      'Размеры: 130*30*30',
+      'Экспедиция «АЛСИБ», сентябрь 2022 г.',
+    ],
   },
   {
-    id: 'Крыло',
-    position: [-10.5, 3.3, -2.5],
-    text: 'Крыло с винглетами на концах для улучшения аэродинамики и снижения расхода топлива.',
+    id: 'Фрагмент киля',
+    position: [1, 8, 5],
+    description: [
+      'Самолет С-47 Дуглас (майор Ф.Л. Пономаренко)',
+      'Размеры: 140*120*30',
+      'Экспедиция «АЛСИБ», июль 2022 г.',
+    ],
+  },
+  {
+    id: 'Радиоприемник',
+    position: [-1, 8, 5],
+    description: ['Из кабины самолета PV-1 Ventura', 'Размеры: 24*10*5', 'Экспедиция «Камчатка», 2021-2023 гг.'],
+  },
+  {
+    id: 'Шильды',
+    position: [-3, 8, 5],
+    description: ['Шильды (4 шт.) с разных самолетов', 'Экспедиция «Камчатка», 2021-2023 гг.'],
+  },
+  {
+    id: 'Кислородный баллон',
+    position: [-5, 8, 5],
+    description: ['Из самолета PV-1 Ventura', 'Размеры: 45*15', 'Экспедиция «АЛСИБ», июль 2022 г.'],
   },
 ]
 
@@ -89,7 +117,15 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
   )
 }
 
-function Airplane({ isAutoRotating, arePointsVisible, points, onPointClick, pointSize, rotationSpeed, ...props }: AirplaneProps) {
+function Airplane({
+  isAutoRotating,
+  arePointsVisible,
+  points,
+  onPointClick,
+  pointSize,
+  rotationSpeed,
+  ...props
+}: AirplaneProps) {
   const { scene } = useGLTF('../src/assets/greenPlane.glb')
   const modelRef = useRef<THREE.Group>(null!)
 
@@ -130,8 +166,18 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
         <button className={s.infoBoxCloseButton} onClick={onClose}>
           ×
         </button>
+
         <h3>{point.id}</h3>
-        <p>{point.text}</p>
+
+        <div className={s.infoBoxContent}>
+          <img src={quoteIconOrange} alt='Quote Icon' className={s.infoQuoteIcon} />
+
+          <div className={s.infoBoxDescription}>
+            {point.description.map((line, index) => (
+              <p key={index}>{line}</p>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
