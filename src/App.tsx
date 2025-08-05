@@ -207,8 +207,9 @@ export default function App() {
     <div className={s.container}>
       {!isLoading && (
         <>
-          <div className={s.logotypeWrapper}>
+          <div className={s.header}>
             <img src={logos} alt={'Logo'} className={s.logotype} />
+            <span className={s.name}>Douglas C-47 Spiridonow</span>
           </div>
 
           <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>

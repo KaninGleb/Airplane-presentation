@@ -8,15 +8,15 @@
     transform-style: preserve-3d;
 }
 
-.logotypeWrapper {
+.header {
     position: absolute;
     top: 0;
-    z-index: 99999;
+    z-index: 10;
     height: 120px;
     width: 730px;
 }
 
-.logotypeWrapper::after {
+.header::after {
     content: '';
     position: absolute;
     top: 190px;
@@ -26,11 +26,39 @@
     background-color: #000;
 }
 
+.header::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 100px;
+    width: 1.5px;
+    height: 100vh;
+    background-color: #000;
+    z-index: 10;
+}
+
 .logotype {
     height: auto;
     max-width: 100%;
     padding: 40px 0 26px 130px;
 }
+
+.name {
+    position: fixed;
+    left: 32px;
+    bottom: 36px;
+    transform-origin: top left;
+    transform: rotate(270deg);
+    z-index: 99999;
+    font-family: "Hepta Slab", sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #000;
+}
+
 
 .toggleButton {
     position: absolute;
