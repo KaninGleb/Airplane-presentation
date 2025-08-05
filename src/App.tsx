@@ -65,16 +65,6 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
   return (
     <Billboard position={position} visible={isVisible}>
       <group scale={[size, size, size]}>
-        <mesh>
-          <sphereGeometry args={[0.3, 32, 32]} />
-          <meshStandardMaterial
-            color={isHovered ? '#ff8c8c' : '#ffffff'}
-            transparent
-            opacity={isHovered ? 0.4 : 0.25}
-            roughness={0}
-          />
-        </mesh>
-
         <Html center>
           <div
             className={s.interactivePointIcon}
