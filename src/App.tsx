@@ -162,8 +162,8 @@ export default function App() {
 
   const resetSettings = () => {
     setIsAutoRotating(true)
-    setAmbientIntensity(1.5)
-    setDirectionalIntensity(1.5)
+    setAmbientIntensity(0)
+    setDirectionalIntensity(0.7)
     setLightAngle(45)
     setShowPoints(true)
     setPointSize(1)
