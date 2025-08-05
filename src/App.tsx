@@ -78,6 +78,10 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
         <Html center>
           <div
             className={s.interactivePointIcon}
+            style={{
+              width: `${size * 40}px`,
+              height: `${size * 40}px`,
+            }}
             onPointerDown={handleClick}
             onPointerOver={() => setIsHovered(true)}
             onPointerOut={() => setIsHovered(false)}
