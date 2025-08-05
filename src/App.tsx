@@ -205,13 +205,17 @@ export default function App() {
 
   return (
     <div className={s.container}>
-      <div className={s.logotypeWrapper}>
-        <img src={logos} alt={'Logo'} className={s.logotype}/>
-      </div>
+      {!isLoading && (
+        <>
+          <div className={s.logotypeWrapper}>
+            <img src={logos} alt={'Logo'} className={s.logotype} />
+          </div>
 
-      <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
-        {isPanelOpen ? 'х' : '☰'}
-      </button>
+          <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
+            {isPanelOpen ? 'х' : '☰'}
+          </button>
+        </>
+      )}
 
       <div ref={panelRef} className={`${s.uiPanel} ${isPanelOpen ? s.open : ''}`}>
         <div className={s.controlGroup}>
