@@ -23,6 +23,8 @@ type AirplaneProps = {
   onPointClick: (point: PointData) => void
   pointSize: number
   rotationSpeed: number
+  isPropellerSpinning: boolean
+  propellerSpeed: number
   [key: string]: any
 }
 
@@ -124,6 +126,8 @@ function Airplane({
   onPointClick,
   pointSize,
   rotationSpeed,
+  isPropellerSpinning,
+  propellerSpeed,
   ...props
 }: AirplaneProps) {
   const { scene } = useGLTF('../src/assets/newGreenPlane.glb')
@@ -163,18 +167,18 @@ function Airplane({
       modelRef.current.rotation.y += delta * rotationSpeed
     }
 
-    const propellerSpeed = 5
+    if (isPropellerSpinning) {
+      if (blades.length > 0) {
+        blades.forEach((blade) => {
+          blade.rotation.x += delta * propellerSpeed
+        })
+      }
 
-    if (blades.length > 0) {
-      blades.forEach((blade) => {
-        blade.rotation.x += delta * propellerSpeed
-      })
-    }
-
-    if (spinners.length > 0) {
-      spinners.forEach((spinner) => {
-        spinner.rotation.y -= delta * propellerSpeed
-      })
+      if (spinners.length > 0) {
+        spinners.forEach((spinner) => {
+          spinner.rotation.y -= delta * propellerSpeed
+        })
+      }
     }
   })
 
@@ -233,6 +237,8 @@ export default function App() {
   const [showPoints, setShowPoints] = useLocalStorage('showPoints', true)
   const [pointSize, setPointSize] = useLocalStorage('pointSize', 1)
   const [rotationSpeed, setRotationSpeed] = useLocalStorage('rotationSpeed', 0.3)
+  const [isPropellerSpinning, setIsPropellerSpinning] = useLocalStorage('isPropellerSpinning', true)
+  const [propellerSpeed, setPropellerSpeed] = useLocalStorage('propellerSpeed', 15)
 
   const { isLoading } = useLoading()
 
@@ -251,6 +257,8 @@ export default function App() {
     setShowPoints(true)
     setPointSize(1)
     setRotationSpeed(0.3)
+    setIsPropellerSpinning(true)
+    setPropellerSpeed(15)
     localStorage.removeItem('isAutoRotating')
     localStorage.removeItem('ambientIntensity')
     localStorage.removeItem('directionalIntensity')
@@ -258,6 +266,8 @@ export default function App() {
     localStorage.removeItem('showPoints')
     localStorage.removeItem('pointSize')
     localStorage.removeItem('rotationSpeed')
+    localStorage.removeItem('isPropellerSpinning')
+    localStorage.removeItem('propellerSpeed')
   }
 
   const arePointsActuallyVisible = showPoints && !activePoint
@@ -348,6 +358,32 @@ export default function App() {
           />
         </div>
         <div className={s.controlGroup}>
+          <div className={s.toggleContainer}>
+            <span className={s.label}>⚙️ Вращение винтов</span>
+            <div className={s.toggleSwitch}>
+              <input
+                type='checkbox'
+                checked={isPropellerSpinning}
+                onChange={() => setIsPropellerSpinning(!isPropellerSpinning)}
+                className={s.toggleInput}
+                id='propellerSpinCheck'
+              />
+              <label className={s.toggleSlider} htmlFor='propellerSpinCheck'></label>
+            </div>
+          </div>
+          <span className={s.valueLabel}>Скорость винтов: {propellerSpeed.toFixed(0)}</span>
+          <input
+            type='range'
+            min='0'
+            max='50'
+            step='1'
+            value={propellerSpeed}
+            onChange={(e) => setPropellerSpeed(parseFloat(e.target.value))}
+            className={s.slider}
+            disabled={!isPropellerSpinning}
+          />
+        </div>
+        <div className={s.controlGroup}>
           <span className={s.label}>Настройки света</span>
           <span className={s.valueLabel}>Яркость (Общий): {ambientIntensity.toFixed(1)}</span>
           <input
@@ -434,6 +470,8 @@ export default function App() {
             arePointsVisible={arePointsActuallyVisible}
             pointSize={pointSize}
             rotationSpeed={rotationSpeed}
+            isPropellerSpinning={isPropellerSpinning}
+            propellerSpeed={propellerSpeed}
           />
           <Environment files={'../src/assets/bgs/citrus_orchard_puresky_2k.exr'} background />
           <OrbitControls enabled={!activePoint} />
