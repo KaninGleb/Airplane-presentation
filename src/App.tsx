@@ -274,8 +274,10 @@ export default function App() {
     localStorage.removeItem('propellerSpeed')
   }
 
-  const arePointsActuallyVisible = showPoints && !activePoint
+  const arePointsActuallyVisible = showPoints
+
   const actualIsRotating = isAutoRotating && !activePoint
+
   const directionalLightPosition = calculateLightPosition()
 
   const handlePointClick = (point: PointData) => {
