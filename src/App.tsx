@@ -4,13 +4,15 @@ import { Billboard, Environment, Html, OrbitControls, useGLTF } from '@react-thr
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
-import defaultIcon from '../src/assets/icons/info-circle-icon-orange.svg'
-import hoveredIcon from '../src/assets/icons/info-circle-icon-hover-orange.svg'
-import logos from '../src/assets/contents/logos.svg'
-import quoteIcon from '../src/assets/icons/Quote-Decoration-Icon.svg'
-import quoteIconOrange from '../src/assets/icons/Quote-Decoration-Icon-Orange.svg'
-import newGreenPlaneUrl from '../src/assets/newGreenPlane.glb?url'
-import citrusOrchardExrUrl from '../src/assets/bgs/citrus_orchard_puresky_2k.exr?url'
+import {
+  hoveredIcon,
+  defaultIcon,
+  newGreenPlaneUrl,
+  quoteIconOrange,
+  logos,
+  quoteIcon,
+  citrusOrchardExrUrl,
+} from './assets'
 
 type PointData = {
   id: string
