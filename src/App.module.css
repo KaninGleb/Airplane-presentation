@@ -48,6 +48,19 @@
     height: 100vh;
     background-color: #000;
     z-index: 10;
+    transition: left 0.3s ease-in-out;
+}
+
+@media (max-height: 1060px) {
+    .header::before {
+        left: 86px;
+    }
+}
+
+@media (max-height: 700px) {
+    .header::before {
+        left: 80px;
+    }
 }
 
 .logosWrapper {
@@ -72,7 +85,7 @@
 
 .name {
     position: fixed;
-    left: 32px;
+    left: 26px;
     bottom: 36px;
     transform-origin: top left;
     transform: rotate(270deg);
@@ -84,6 +97,13 @@
     letter-spacing: -0.01em;
     text-transform: uppercase;
     color: #000;
+    transition: font-size 0.2s ease-in-out;
+}
+
+@media (max-height: 1059px) {
+    .name {
+        font-size: calc(16px + 2vh);
+    }
 }
 
 .card {
