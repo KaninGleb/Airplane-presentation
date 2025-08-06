@@ -18,7 +18,7 @@ import {
   propeller,
   tail,
 } from './assets'
-import {BurgerButton} from './components/BurgerIcon/BurgerIcon.tsx';
+import { BurgerButton } from './components/BurgerIcon/BurgerIcon.tsx'
 
 type PointData = {
   id: number
@@ -220,6 +220,8 @@ function Airplane({
 }
 
 function InfoBox({ point, onClose }: InfoBoxProps) {
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+
   return (
     <div className={s.infoBoxBackdrop} onClick={onClose}>
       <div className={s.infoBox} onClick={(e) => e.stopPropagation()}>
@@ -233,7 +235,16 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
         </div>
 
         <div className={s.infoBoxContent}>
-          <img src={point.image} alt={point.alt} className={s.cardImage} />
+          {!isImageLoaded && <div className={s.imagePlaceholder}>{<LoadingAnimation title={'Загрузка'} color={'#000'}/>}</div>}
+
+          <img
+            src={point.image}
+            alt={point.alt}
+            className={s.cardImage}
+            onLoad={() => setIsImageLoaded(true)}
+            style={{ display: isImageLoaded ? 'block' : 'none' }}
+          />
+
           <ul className={s.infoBoxDescription}>
             {point.description.map((item, index) => (
               <li key={index} className={s.descriptionItem}>
@@ -486,7 +497,7 @@ export default function App() {
 
       {isLoading && (
         <div className={s.loaderOverlay}>
-          <LoadingAnimation />
+          <LoadingAnimation title={'Загрузка 3D модели'} />
         </div>
       )}
 
@@ -516,7 +527,7 @@ export default function App() {
   )
 }
 
-function LoadingAnimation() {
+function LoadingAnimation({ title, color = '#fff' }: { title: string; color?: string }) {
   const [dots, setDots] = useState(1)
 
   useEffect(() => {
@@ -527,7 +538,12 @@ function LoadingAnimation() {
     return () => clearInterval(intervalId)
   }, [])
 
-  return <div className={s.loader}>Загрузка 3D модели{'.'.repeat(dots)}</div>
+  return (
+    <div className={s.loader} style={{color}}>
+      {title}
+      {'.'.repeat(dots)}
+    </div>
+  )
 }
 
 function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
