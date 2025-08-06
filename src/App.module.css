@@ -314,6 +314,10 @@
     cursor: pointer;
 }
 
+.toggleInput:checked + .toggleSlider {
+    background: linear-gradient(to right, #00bfff, #0080ff);
+}
+
 .toggleSlider:before {
     content: "";
     position: absolute;
