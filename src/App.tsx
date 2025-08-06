@@ -4,6 +4,7 @@ import { Billboard, Environment, Html, OrbitControls, useGLTF } from '@react-thr
 import * as THREE from 'three'
 import s from './App.module.css'
 import { useLoading } from './hooks/useLoading.ts'
+import { useFullscreen } from './hooks/useFullscreen'
 import {
   hoveredIcon,
   defaultIcon,
@@ -17,6 +18,7 @@ import {
   propeller,
   tail,
 } from './assets'
+import { BurgerButton } from './components/BurgerIcon/BurgerIcon.tsx'
 
 type PointData = {
   id: number
@@ -263,6 +265,7 @@ export default function App() {
   const [propellerSpeed, setPropellerSpeed] = useLocalStorage('propellerSpeed', 15)
 
   const { isLoading } = useLoading()
+  const [isFullscreen, toggleFullscreen] = useFullscreen()
 
   const calculateLightPosition = (): [number, number, number] => {
     const angleRad = lightAngle * (Math.PI / 180)
@@ -331,12 +334,12 @@ export default function App() {
         <>
           <div className={s.header}>
             <div className={s.logosWrapper}>
-              <img src={RGSlogo} alt={'Logo'} className={s.logotype} />
-              <img src={HClogo} alt={'Logo'} className={s.logotype} />
+              <img src={RGSlogo} alt={'Logo'} className={s.logotype} draggable={false} />
+              <img src={HClogo} alt={'Logo'} className={s.logotype} draggable={false} />
             </div>
             <span className={s.name}>Douglas C-47 Spiridonow</span>
             <div className={s.card}>
-              <img src={quoteIcon} alt='Quote Icon' className={s.quoteIcon} />
+              <img src={quoteIcon} alt='Quote Icon' className={s.quoteIcon} draggable={false} />
               <div>
                 <h3 className={s.title}>
                   Douglas C-47 <br />
@@ -351,9 +354,7 @@ export default function App() {
             </div>
           </div>
 
-          <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
-            {isPanelOpen ? 'х' : '☰'}
-          </button>
+          <BurgerButton ref={buttonRef} isOpen={isPanelOpen} onClick={() => setIsPanelOpen(!isPanelOpen)} />
         </>
       )}
 
@@ -468,6 +469,11 @@ export default function App() {
             onChange={(e) => setPointSize(parseFloat(e.target.value))}
             className={s.slider}
           />
+        </div>
+        <div className={s.controlGroup}>
+          <button className={s.fullscreenButton} onClick={toggleFullscreen}>
+            {isFullscreen ? 'Выйти из полноэкранного режима' : 'На весь экран'}
+          </button>
         </div>
         <div className={s.controlGroup}>
           <button className={s.resetButton} onClick={resetSettings}>

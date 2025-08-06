@@ -83,6 +83,10 @@
     -webkit-user-drag: none;
 }
 
+.quoteIcon, .logotype {
+    -webkit-user-drag: none;
+}
+
 .name {
     position: fixed;
     left: 26px;
@@ -108,29 +112,33 @@
 
 .card {
     position: fixed;
-    top: 22px;
-    right: 22px;
+    top: 20px;
+    right: 20px;
     z-index: 10;
     display: flex;
-    gap: 22px;
-    padding: 16px 42px 28px;
-    border-radius: 80px;
-    min-width: 684px;
+    gap: 17.6px;
+    padding: 12.8px 33.6px 22.4px;
+    border-radius: 64px;
+    min-width: 547.2px;
     backdrop-filter: blur(25px);
     box-shadow: inset 0 0 4px 0 rgba(255, 255, 255, 0.5);
     background: linear-gradient(180deg, rgba(244, 244, 244, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .quoteIcon {
-    margin-top: 16px;
-    width: 80px;
-    height: 55px;
+    margin-top: 12.8px;
+    width: 64px;
+    height: 44px;
 }
 
 .title {
     font-family: "Hepta Slab", sans-serif;
     font-weight: 500;
-    font-size: 48px;
+    font-size: 38.4px;
     line-height: 1;
     letter-spacing: -0.01em;
     text-transform: uppercase;
@@ -140,7 +148,7 @@
 .description {
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    font-size: 32px;
+    font-size: 25.6px;
     color: #26282c;
 }
 
@@ -378,7 +386,6 @@
     width: 550px;
     border-radius: 10px;
 }
-
 
 .infoBoxContent {
     display: flex;
