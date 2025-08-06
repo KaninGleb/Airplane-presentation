@@ -50,10 +50,24 @@
     z-index: 10;
 }
 
-.logotype {
-    height: auto;
-    max-width: 100%;
+.logosWrapper {
+    display: flex;
+    align-items: center;
+    gap: 80px;
     padding: 40px 0 26px 130px;
+}
+
+.logotype {
+    height: 120px;
+    width: auto;
+    max-width: 100%;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    pointer-events: none;
+    -webkit-user-drag: none;
 }
 
 .name {

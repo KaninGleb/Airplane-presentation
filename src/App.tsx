@@ -9,7 +9,8 @@ import {
   defaultIcon,
   newGreenPlaneUrl,
   quoteIconOrange,
-  logos,
+  RGSlogo,
+  HClogo,
   quoteIcon,
   citrusOrchardExrUrl,
   fuselage,
@@ -339,7 +340,10 @@ export default function App() {
       {!isLoading && (
         <>
           <div className={s.header}>
-            <img src={logos} alt={'Logo'} className={s.logotype} />
+            <div className={s.logosWrapper}>
+              <img src={RGSlogo} alt={'Logo'} className={s.logotype} />
+              <img src={HClogo} alt={'Logo'} className={s.logotype} />
+            </div>
             <span className={s.name}>Douglas C-47 Spiridonow</span>
             <div className={s.card}>
               <img src={quoteIcon} alt='Quote Icon' className={s.quoteIcon} />
