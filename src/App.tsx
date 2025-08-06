@@ -18,7 +18,6 @@ import {
   propeller,
   tail,
 } from './assets'
-import { BurgerButton } from './components/BurgerIcon/BurgerIcon.tsx'
 
 type PointData = {
   id: number
@@ -354,7 +353,9 @@ export default function App() {
             </div>
           </div>
 
-          <BurgerButton ref={buttonRef} isOpen={isPanelOpen} onClick={() => setIsPanelOpen(!isPanelOpen)} />
+          <button ref={buttonRef} className={s.toggleButton} onClick={() => setIsPanelOpen(!isPanelOpen)}>
+            {isPanelOpen ? 'х' : '☰'}
+          </button>
         </>
       )}
 
