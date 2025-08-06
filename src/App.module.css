@@ -178,7 +178,7 @@
     color: #26282c;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     .card {
         max-width: 336px;
         gap: 8.6px;
