@@ -306,10 +306,6 @@
     border-radius: 50%;
 }
 
-.toggleInput:checked + .toggleSlider {
-    background: linear-gradient(to right, #00bfff, #0080ff);
-}
-
 .toggleInput:checked + .toggleSlider:before {
     transform: translateX(22px);
 }
