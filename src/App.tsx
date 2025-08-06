@@ -62,10 +62,9 @@ const pointsData: PointData[] = [
   {
     id: 1,
     title: 'A fragment of the fuselage (C‐47 Douglas aircraft  of leut. Gerasimov E.F.)',
-    position: [5, 8, 5],
+    position: [-1.4, 4.7, -9],
     image: fuselage,
     alt: 'fuselageImage',
-    // Используем новую структуру для описания
     description: [
       {
         label: descriptionLabels.name,
@@ -78,7 +77,7 @@ const pointsData: PointData[] = [
   {
     id: 2,
     title: 'Propeller with aircraft blades (C‐47 Douglas aircraft of 2nd Lieutenant Spiridonov E.S.)',
-    position: [3, 8, 5],
+    position: [-3.33, 2.88, -8.8],
     image: propeller,
     alt: 'propellerImage',
     description: [
@@ -93,7 +92,7 @@ const pointsData: PointData[] = [
   {
     id: 3,
     title: 'A fragment of the tail fin (C‐47 Douglas aircraft of Major Ponomarenko F.L.)',
-    position: [1, 8, 5],
+    position: [0, 6.1, 8.5],
     image: tail,
     alt: 'tailImage',
     description: [
