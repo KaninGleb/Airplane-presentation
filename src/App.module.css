@@ -394,6 +394,7 @@
     border: 1px solid #555;
     max-width: 500px;
     position: relative;
+    transition: all 0.3s ease-in-out;
 }
 
 .infoBox h3 {
@@ -430,6 +431,7 @@
 .infoQuoteIcon {
     width: 80px;
     height: 55px;
+    transition: all 0.3s ease-in-out;
 }
 
 .infoBoxContent {
@@ -439,15 +441,14 @@
 }
 
 .cardImage {
-    width: 550px;
-    border-radius: 10px;
+    object-fit: cover;
 }
 
-.cardImage {
+.cardImage, .imagePlaceholder {
     width: 550px;
     height: 366px;
-    object-fit: cover;
     border-radius: 10px;
+    transition: all 0.3s ease-in-out;
 }
 
 .imagePlaceholder {
@@ -491,6 +492,69 @@
 
 .descriptionItem span {
     text-align: left;
+}
+
+@media (max-width: 1480px) {
+    .infoBox {
+        min-width: 872px;
+        padding: 22px 34px 35px 34px;
+        border-radius: 56px;
+    }
+
+    .titleContent {
+        font-size: 15px;
+        gap: 11px;
+    }
+
+    .infoQuoteIcon {
+        width: 56px;
+        height: 39px;
+    }
+
+    .infoBoxContent {
+        gap: 17px;
+    }
+
+    .cardImage, .imagePlaceholder {
+        width: 385px;
+        height: 256px;
+        border-radius: 7px;
+    }
+
+    .infoBoxDescription {
+        font-size: 14px;
+    }
+
+    .descriptionItem {
+        margin-bottom: 14px;
+    }
+}
+
+@media (max-width: 920px) {
+    .infoBox {
+        min-width: 100%;
+        width: 95%;
+        padding: 20px;
+        border-radius: 30px;
+    }
+
+    .infoBoxContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cardImage, .imagePlaceholder {
+        width: 100%;
+        height: auto;
+    }
+
+    .infoBoxDescription {
+        text-align: center;
+    }
+
+    .descriptionItem span {
+        text-align: center;
+    }
 }
 
 .interactivePointIcon {
