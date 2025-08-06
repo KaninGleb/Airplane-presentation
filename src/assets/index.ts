@@ -5,3 +5,7 @@ export { default as quoteIcon } from './icons/Quote-Decoration-Icon.svg'
 export { default as quoteIconOrange } from './icons/Quote-Decoration-Icon-Orange.svg'
 export { default as newGreenPlaneUrl } from './newGreenPlane.glb?url'
 export { default as citrusOrchardExrUrl } from './bgs/citrus_orchard_puresky_2k.exr?url'
+
+export { default as fuselage } from './images/1-Fuselage.jpg'
+export { default as propeller } from './images/2-Propeller.jpg'
+export { default as tail } from './images/3-Tail.jpg'

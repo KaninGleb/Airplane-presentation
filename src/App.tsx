@@ -12,12 +12,17 @@ import {
   logos,
   quoteIcon,
   citrusOrchardExrUrl,
+  fuselage,
+  propeller,
+  tail,
 } from './assets'
 
 type PointData = {
-  id: string
+  id: number
+  title: string
   position: [number, number, number]
   description: string[]
+  image: string
 }
 
 type AirplaneProps = {
@@ -46,48 +51,39 @@ type InfoBoxProps = {
 }
 
 // The positions are set relative to the center of the aircraft model [x, y, z]
-const mockPoints: PointData[] = [
+const pointsData: PointData[] = [
   {
-    id: 'Фрагмент фюзеляжа',
+    id: 1,
+    title: 'A fragment of the fuselage (C‐47 Douglas aircraft  of leut. Gerasimov E.F.)',
     position: [5, 8, 5],
+    image: fuselage,
     description: [
-      'Самолет Си-47 Дуглас (ст. лейтенант Е.Ф. Герасимов)',
-      'Размеры: 200*100*30',
+      'Фрагмент фюзеляжа (самолета Си‐47  Дуглас старшего лейтенанта Е.Ф. Герасимова)',
+      '200*100*30',
       'Экспедиция «АЛСИБ», июль 2022 г.',
     ],
   },
   {
-    id: 'Лопасть винта',
+    id: 2,
+    title: 'Propeller with aircraft blades (C‐47 Douglas aircraft of 2nd Lieutenant Spiridonov E.S.)',
     position: [3, 8, 5],
+    image: propeller,
     description: [
-      'Самолет С-47 Дуглас (ст. лейтенант Спиридонов)',
-      'Размеры: 130*30*30',
+      'Винт с лопастями самолета (самолет С‐47 Дуглас старшего лейтенанта Спиридонова)',
+      '130*30*30',
       'Экспедиция «АЛСИБ», сентябрь 2022 г.',
     ],
   },
   {
-    id: 'Фрагмент киля',
+    id: 3,
+    title: 'A fragment of the tail fin (C‐47 Douglas aircraft of Major Ponomarenko F.L.)',
     position: [1, 8, 5],
+    image: tail,
     description: [
-      'Самолет С-47 Дуглас (майор Ф.Л. Пономаренко)',
-      'Размеры: 140*120*30',
+      'Фрагмент киля самолета С‐47 Дуглас (майора Ф.Л. Пономаренко)',
+      '140*120*30',
       'Экспедиция «АЛСИБ», июль 2022 г.',
     ],
-  },
-  {
-    id: 'Радиоприемник',
-    position: [-1, 8, 5],
-    description: ['Из кабины самолета PV-1 Ventura', 'Размеры: 24*10*5', 'Экспедиция «Камчатка», 2021-2023 гг.'],
-  },
-  {
-    id: 'Шильды',
-    position: [-3, 8, 5],
-    description: ['Шильды (4 шт.) с разных самолетов', 'Экспедиция «Камчатка», 2021-2023 гг.'],
-  },
-  {
-    id: 'Кислородный баллон',
-    position: [-5, 8, 5],
-    description: ['Из самолета PV-1 Ventura', 'Размеры: 45*15', 'Экспедиция «АЛСИБ», июль 2022 г.'],
   },
 ]
 
@@ -472,7 +468,7 @@ export default function App() {
               scale={0.4}
               position={[0, 0, 0]}
               isAutoRotating={actualIsRotating}
-              points={mockPoints}
+              points={pointsData}
               onPointClick={handlePointClick}
               arePointsVisible={arePointsActuallyVisible}
               pointSize={pointSize}
