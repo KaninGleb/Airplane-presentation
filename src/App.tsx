@@ -21,8 +21,9 @@ type PointData = {
   id: number
   title: string
   position: [number, number, number]
-  description: string[]
+  description: { label: string; value: string }[]
   image: string
+  alt: string
 }
 
 type AirplaneProps = {
@@ -50,6 +51,12 @@ type InfoBoxProps = {
   onClose: () => void
 }
 
+const descriptionLabels = {
+  name: 'Наименование',
+  size: 'Размер',
+  expedition: 'Экспедиция',
+}
+
 // The positions are set relative to the center of the aircraft model [x, y, z]
 const pointsData: PointData[] = [
   {
@@ -57,10 +64,15 @@ const pointsData: PointData[] = [
     title: 'A fragment of the fuselage (C‐47 Douglas aircraft  of leut. Gerasimov E.F.)',
     position: [5, 8, 5],
     image: fuselage,
+    alt: 'fuselageImage',
+    // Используем новую структуру для описания
     description: [
-      'Фрагмент фюзеляжа (самолета Си‐47  Дуглас старшего лейтенанта Е.Ф. Герасимова)',
-      '200*100*30',
-      'Экспедиция «АЛСИБ», июль 2022 г.',
+      {
+        label: descriptionLabels.name,
+        value: 'Фрагмент фюзеляжа (самолета Си‐47  Дуглас старшего лейтенанта Е.Ф. Герасимова)',
+      },
+      { label: descriptionLabels.size, value: '200*100*30' },
+      { label: descriptionLabels.expedition, value: 'Экспедиция «АЛСИБ», июль 2022 г.' },
     ],
   },
   {
@@ -68,10 +80,14 @@ const pointsData: PointData[] = [
     title: 'Propeller with aircraft blades (C‐47 Douglas aircraft of 2nd Lieutenant Spiridonov E.S.)',
     position: [3, 8, 5],
     image: propeller,
+    alt: 'propellerImage',
     description: [
-      'Винт с лопастями самолета (самолет С‐47 Дуглас старшего лейтенанта Спиридонова)',
-      '130*30*30',
-      'Экспедиция «АЛСИБ», сентябрь 2022 г.',
+      {
+        label: descriptionLabels.name,
+        value: 'Винт с лопастями самолета (самолет С‐47 Дуглас старшего лейтенанта Спиридонова)',
+      },
+      { label: descriptionLabels.size, value: '130*30*30' },
+      { label: descriptionLabels.expedition, value: 'Экспедиция «АЛСИБ», сентябрь 2022 г.' },
     ],
   },
   {
@@ -79,10 +95,11 @@ const pointsData: PointData[] = [
     title: 'A fragment of the tail fin (C‐47 Douglas aircraft of Major Ponomarenko F.L.)',
     position: [1, 8, 5],
     image: tail,
+    alt: 'tailImage',
     description: [
-      'Фрагмент киля самолета С‐47 Дуглас (майора Ф.Л. Пономаренко)',
-      '140*120*30',
-      'Экспедиция «АЛСИБ», июль 2022 г.',
+      { label: descriptionLabels.name, value: 'Фрагмент киля самолета С‐47 Дуглас (майора Ф.Л. Пономаренко)' },
+      { label: descriptionLabels.size, value: '140*120*30' },
+      { label: descriptionLabels.expedition, value: 'Экспедиция «АЛСИБ», июль 2022 г.' },
     ],
   },
 ]
@@ -208,20 +225,25 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
           ×
         </button>
 
-        <h3>{point.id}</h3>
+        <div className={s.titleContent}>
+          <img src={quoteIconOrange} alt='Quote Icon' className={s.infoQuoteIcon} />
+          <h3>{point.title}</h3>
+        </div>
 
         <div className={s.infoBoxContent}>
-          <img src={quoteIconOrange} alt='Quote Icon' className={s.infoQuoteIcon} />
-
-          <div className={s.infoBoxDescription}>
-            {point.description.map((line, index) => (
-              <p key={index}>{line}</p>
+          <img src={point.image} alt={point.alt} className={s.cardImage} />
+          <ul className={s.infoBoxDescription}>
+            {point.description.map((item, index) => (
+              <li key={index} className={s.descriptionItem}>
+                <strong>{item.label}:</strong>
+                <span> {item.value}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function App() {
