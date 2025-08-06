@@ -62,7 +62,7 @@ const pointsData: PointData[] = [
   {
     id: 1,
     title: 'A fragment of the fuselage (C‐47 Douglas aircraft  of leut. Gerasimov E.F.)',
-    position: [-1.4, 4.7, -9],
+    position: [-1.25, 4.7, -9],
     image: fuselage,
     alt: 'fuselageImage',
     description: [
