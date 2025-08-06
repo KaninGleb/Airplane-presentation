@@ -63,6 +63,12 @@
     }
 }
 
+@media (max-height: 570px) {
+    .header::before {
+        left: 52px;
+    }
+}
+
 .logosWrapper {
     display: flex;
     align-items: center;
@@ -110,9 +116,23 @@
     }
 }
 
+@media (max-height: 570px) {
+    .name {
+        font-size: calc(10px + 1vh);
+    }
+}
+
 @media (max-height: 700px) {
     .name {
         bottom: 0;
+    }
+}
+
+
+@media (max-height: 700px) {
+    .name {
+        left: 20px;
+
     }
 }
 
