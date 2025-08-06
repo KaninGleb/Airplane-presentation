@@ -53,9 +53,8 @@ type InfoBoxProps = {
 }
 
 const descriptionLabels = {
-  name: 'Наименование',
-  size: 'Размер',
-  expedition: 'Экспедиция',
+  size: 'Dimensions',
+  expedition: 'Expedition',
 }
 
 // The positions are set relative to the center of the aircraft model [x, y, z]
@@ -67,12 +66,8 @@ const pointsData: PointData[] = [
     image: fuselage,
     alt: 'fuselageImage',
     description: [
-      {
-        label: descriptionLabels.name,
-        value: 'Фрагмент фюзеляжа (самолета Си‐47  Дуглас старшего лейтенанта Е.Ф. Герасимова)',
-      },
-      { label: descriptionLabels.size, value: '200*100*30' },
-      { label: descriptionLabels.expedition, value: 'Экспедиция «АЛСИБ», июль 2022 г.' },
+      { label: descriptionLabels.size, value: '200 x 100 x 30' },
+      { label: descriptionLabels.expedition, value: 'ALSIB Expedition, September 2022' },
     ],
   },
   {
@@ -82,12 +77,8 @@ const pointsData: PointData[] = [
     image: propeller,
     alt: 'propellerImage',
     description: [
-      {
-        label: descriptionLabels.name,
-        value: 'Винт с лопастями самолета (самолет С‐47 Дуглас старшего лейтенанта Спиридонова)',
-      },
-      { label: descriptionLabels.size, value: '130*30*30' },
-      { label: descriptionLabels.expedition, value: 'Экспедиция «АЛСИБ», сентябрь 2022 г.' },
+      { label: descriptionLabels.size, value: '130 x 30 x 30' },
+      { label: descriptionLabels.expedition, value: 'ALSIB Expedition, September 2022' },
     ],
   },
   {
@@ -97,9 +88,8 @@ const pointsData: PointData[] = [
     image: tail,
     alt: 'tailImage',
     description: [
-      { label: descriptionLabels.name, value: 'Фрагмент киля самолета С‐47 Дуглас (майора Ф.Л. Пономаренко)' },
-      { label: descriptionLabels.size, value: '140*120*30' },
-      { label: descriptionLabels.expedition, value: 'Экспедиция «АЛСИБ», июль 2022 г.' },
+      { label: descriptionLabels.size, value: '140 x 120 x 30' },
+      { label: descriptionLabels.expedition, value: 'ALSIB Expedition, July 2022' },
     ],
   },
 ]
