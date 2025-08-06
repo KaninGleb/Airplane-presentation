@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Billboard, Environment, Html, OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import s from './App.module.css'
@@ -105,6 +105,16 @@ const pointsData: PointData[] = [
 
 function InteractivePoint({ position, pointData, onClick, isVisible, size }: InteractivePointProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const { camera } = useThree()
+  const pointRef = useRef<THREE.Group>(null!)
+
+  useFrame(() => {
+    if (pointRef.current) {
+      const distance = camera.position.distanceTo(new THREE.Vector3(...position))
+      const scaleFactor = Math.min(1 / (distance * 0.2), 0.8) * size
+      pointRef.current.scale.set(scaleFactor, scaleFactor, scaleFactor)
+    }
+  })
 
   const handleClick = (e: any) => {
     e.stopPropagation()
@@ -115,7 +125,7 @@ function InteractivePoint({ position, pointData, onClick, isVisible, size }: Int
 
   return (
     <Billboard position={position} visible={isVisible}>
-      <group scale={[size, size, size]}>
+      <group ref={pointRef} scale={[size, size, size]}>
         <Html center>
           <div
             className={s.interactivePointIcon}
@@ -242,7 +252,7 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default function App() {
