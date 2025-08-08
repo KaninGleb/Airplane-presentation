@@ -235,7 +235,9 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
         </div>
 
         <div className={s.infoBoxContent}>
-          {!isImageLoaded && <div className={s.imagePlaceholder}>{<LoadingAnimation title={'Загрузка'} color={'#000'}/>}</div>}
+          {!isImageLoaded && (
+            <div className={s.imagePlaceholder}>{<LoadingAnimation title={'Загрузка'} color={'#000'} />}</div>
+          )}
 
           <img
             src={point.image}
@@ -348,19 +350,18 @@ export default function App() {
               <img src={RGSlogo} alt={'Logo'} className={s.logotype} draggable={false} />
               <img src={HClogo} alt={'Logo'} className={s.logotype} draggable={false} />
             </div>
-            <span className={s.name}>Douglas C-47 SkytrainАС 42-23440</span>
+            <h1 className={s.name}>Douglas C-47 SkytrainАС 42-23440</h1>
             <div className={s.card}>
               <img src={quoteIcon} alt='Quote Icon' className={s.quoteIcon} draggable={false} />
               <div>
-                <h3 className={s.title}>
+                <h2 className={s.title}>
                   Douglas C-47 <br />
-                  Skytrain <br />
-                  АС 42-23440
-                </h3>
-                <span className={s.description}>
-                  2d Lt. Evgeniy Spiridonow <br />
-                  MIA: May 28, 1943
-                </span>
+                  Skytrain АС 42-23440
+                </h2>
+                <ul className={s.description}>
+                  <li>2d Lt. Evgeniy Spiridonow</li>
+                  <li>MIA: May 28, 1943</li>
+                </ul>
               </div>
             </div>
           </div>
