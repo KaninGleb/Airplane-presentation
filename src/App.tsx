@@ -347,8 +347,8 @@ export default function App() {
         <>
           <div className={s.header}>
             <div className={s.logosWrapper}>
-              <img src={RGSlogo} alt={'Logo'} className={s.logotype} draggable={false} />
-              <img src={HClogo} alt={'Logo'} className={s.logotype} draggable={false} />
+              <img src={RGSlogo} alt={'Logo'} className={s.logotypeFirst} draggable={false} />
+              <img src={HClogo} alt={'Logo'} className={s.logotypeSecond} draggable={false} />
             </div>
             <h1 className={s.name}>Douglas C-47 SkytrainАС 42-23440</h1>
             <div className={s.card}>
