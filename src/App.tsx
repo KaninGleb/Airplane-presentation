@@ -348,7 +348,7 @@ export default function App() {
               <img src={RGSlogo} alt={'Logo'} className={s.logotype} draggable={false} />
               <img src={HClogo} alt={'Logo'} className={s.logotype} draggable={false} />
             </div>
-            <span className={s.name}>Douglas C-47 Spiridonow</span>
+            <span className={s.name}>Douglas C-47 SkytrainАС 42-23440</span>
             <div className={s.card}>
               <img src={quoteIcon} alt='Quote Icon' className={s.quoteIcon} draggable={false} />
               <div>
@@ -539,7 +539,7 @@ function LoadingAnimation({ title, color = '#fff' }: { title: string; color?: st
   }, [])
 
   return (
-    <div className={s.loader} style={{color}}>
+    <div className={s.loader} style={{ color }}>
       {title}
       {'.'.repeat(dots)}
     </div>
