@@ -27,6 +27,7 @@ type PointData = {
   description: { label: string; value: string }[]
   image: string
   alt: string
+  isVertical?: boolean
 }
 
 type AirplaneProps = {
@@ -222,9 +223,13 @@ function Airplane({
 function InfoBox({ point, onClose }: InfoBoxProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false)
 
+  const infoBoxClassName = `${s.infoBox} ${point.isVertical && s.verticalCard}`
+  const imagePlaceholderClassName = `${s.imagePlaceholder} ${point.isVertical ? s.verticalImagePlaceholder : s.horizontalImagePlaceholder}`
+  const cardImageClassName = `${s.cardImage} ${point.isVertical ? s.vertical : s.horizontal}`
+
   return (
     <div className={s.infoBoxBackdrop} onClick={onClose}>
-      <div className={s.infoBox} onClick={(e) => e.stopPropagation()}>
+      <div className={infoBoxClassName} onClick={(e) => e.stopPropagation()}>
         <button className={s.infoBoxCloseButton} onClick={onClose}>
           ×
         </button>
@@ -236,13 +241,13 @@ function InfoBox({ point, onClose }: InfoBoxProps) {
 
         <div className={s.infoBoxContent}>
           {!isImageLoaded && (
-            <div className={s.imagePlaceholder}>{<LoadingAnimation title={'Загрузка'} color={'#000'} />}</div>
+            <div className={imagePlaceholderClassName}>{<LoadingAnimation title={'Загрузка'} color={'#000'} />}</div>
           )}
 
           <img
             src={point.image}
             alt={point.alt}
-            className={s.cardImage}
+            className={cardImageClassName}
             onLoad={() => setIsImageLoaded(true)}
             style={{ display: isImageLoaded ? 'block' : 'none' }}
           />

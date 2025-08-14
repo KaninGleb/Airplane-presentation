@@ -117,6 +117,7 @@
     text-transform: uppercase;
     color: #000;
     transition: font-size 0.2s ease-in-out;
+    white-space: nowrap;
 }
 
 @media (max-height: 1320px) {
@@ -420,30 +421,32 @@
 }
 
 .infoBoxBackdrop {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 30;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .infoBox {
-    border-radius: 80px;
-    min-width: 1246px;
-    padding: 32px 48px 50px 48px;
+    border-radius: 60px;
+    width: 100%;
+    max-width: 1246px;
+    padding: 32px 48px;
     backdrop-filter: blur(25px);
-    box-shadow: inset 0 0 4px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 0 4px 0 rgba(255, 255, 255, 0.5);
     background: linear-gradient(180deg, rgba(244, 244, 244, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%);
-    color: white;
-    border: 1px solid #555;
-    max-width: 500px;
     position: relative;
     transition: all 0.3s ease-in-out;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .infoBox h3 {
@@ -480,6 +483,7 @@
 .infoQuoteIcon {
     width: 80px;
     height: 55px;
+    flex-shrink: 0;
     transition: all 0.3s ease-in-out;
 }
 
@@ -493,35 +497,57 @@
     object-fit: cover;
 }
 
-.cardImage, .imagePlaceholder {
-    width: 550px;
-    height: 366px;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
+.cardImage.horizontal {
+    width: 60%;
+    object-fit: cover;
+}
+
+.cardImage.vertical {
+    width: auto;
+    height: 650px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.infoBox.verticalCard {
+    max-width: 980px;
+    transition: max-width 0.4s ease-in-out;
 }
 
 .imagePlaceholder {
-    width: 550px;
-    height: 366px;
+    width: 60%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f0f0f0;
-    border-radius: 10px;
     color: #333;
+    flex-shrink: 0;
+}
+
+.horizontalImagePlaceholder {
+    aspect-ratio: 3 / 2;
+}
+
+.verticalImagePlaceholder {
+    aspect-ratio: 2 / 3;
+    height: 650px;
+}
+
+.cardImage, .imagePlaceholder {
+    border-radius: 10px;
+    background-color: #f0f0f0;
 }
 
 .infoBoxDescription {
     list-style: none;
     padding: 0;
     margin: 0;
-
     font-family: "Inter", sans-serif;
     font-weight: 500;
     font-size: 20px;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
+    line-height: 1.5;
     color: #000;
+    flex-grow: 1;
 }
 
 .descriptionItem {
@@ -535,8 +561,9 @@
 }
 
 .descriptionItem strong {
-    white-space: nowrap;
+    display: block;
     text-transform: uppercase;
+    margin-bottom: 4px;
 }
 
 .descriptionItem span {
@@ -545,14 +572,13 @@
 
 @media (max-width: 1480px) {
     .infoBox {
-        min-width: 872px;
-        padding: 22px 34px 35px 34px;
-        border-radius: 56px;
+        max-width: 90%;
+        padding: 22px 34px;
+        border-radius: 40px;
     }
 
     .titleContent {
-        font-size: 15px;
-        gap: 11px;
+        font-size: 18px;
     }
 
     .infoQuoteIcon {
@@ -560,36 +586,32 @@
         height: 39px;
     }
 
-    .infoBoxContent {
-        gap: 17px;
+    .cardImage.horizontal, .imagePlaceholder {
+        width: 60%;
+        height: auto;
     }
 
-    .cardImage, .imagePlaceholder {
-        width: 385px;
-        height: 256px;
-        border-radius: 7px;
+    .cardImage.vertical, .verticalImagePlaceholder {
+        height: 70vh;
+        width: auto;
     }
 
     .infoBoxDescription {
-        font-size: 14px;
-    }
-
-    .descriptionItem {
-        margin-bottom: 14px;
+        font-size: 16px;
     }
 }
 
 @media (max-width: 920px) {
     .infoBox {
-        min-width: 100%;
-        width: 95%;
         padding: 20px;
         border-radius: 30px;
+        max-height: 85vh;
     }
 
     .infoBoxContent {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
     }
 
     .cardImage, .imagePlaceholder {
@@ -597,12 +619,29 @@
         height: auto;
     }
 
+    .cardImage.horizontal {
+        aspect-ratio: 16/9;
+        width: 100%;
+    }
+
+    .cardImage.vertical {
+        max-height: 50vh;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
     .infoBoxDescription {
-        text-align: center;
+        text-align: left;
+        width: 100%;
+    }
+
+    .descriptionItem {
+        display: block;
     }
 
     .descriptionItem span {
-        text-align: center;
+        text-align: left;
     }
 }
 
